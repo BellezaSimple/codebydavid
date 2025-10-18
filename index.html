@@ -1,172 +1,371 @@
-<!-- ✅ HERO SECTION - CODEBYDAVID -->
-<section class="hero">
-  <div id="particles-js"></div>
-  <div class="hero-content">
-    <h1 class="hero-title">
-      Designing the Web of <span class="gradient-text">Tomorrow</span><br />
-      — Fast, Elegant & Intelligent.
-    </h1>
-    <p class="hero-subtitle">
-      At <strong>CodeByDavid</strong>, we craft next-generation digital experiences — optimized, futuristic, and ready for scale.
-    </p>
-    <div class="hero-buttons">
-      <a href="#projects" class="btn primary">Explore Projects</a>
-      <a href="#contact" class="btn secondary">Start a Project</a>
-    </div>
-  </div>
-</section>
-
-<!-- ✅ CSS -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CodeByDavid — Futuristic Web Developer</title>
+<meta name="description" content="CodeByDavid — futuristic, interactive web developer portfolio." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
-.hero {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-  background: radial-gradient(ellipse at center, #050810 0%, #020409 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  font-family: "Inter", sans-serif;
-}
-
-#particles-js {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 900px;
-  padding: 0 20px;
-  animation: fadeIn 1.5s ease;
-}
-
-.hero-title {
-  font-size: 3.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 20px;
-  background: linear-gradient(90deg, #00eaff, #0077ff, #00ffbb);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 5s ease infinite;
-}
-
-.gradient-text {
-  background: linear-gradient(90deg, #00ffff, #0080ff, #00ff80);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 6s ease infinite;
-}
-
-.hero-subtitle {
-  color: #b6c0d1;
-  font-size: 1.2rem;
-  max-width: 650px;
-  margin: 0 auto 40px;
-  line-height: 1.6;
-  animation: fadeIn 2s ease;
-}
-
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 14px 28px;
-  border-radius: 50px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-}
-
-.btn.primary {
-  background: linear-gradient(90deg, #00eaff, #0077ff);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(0, 195, 255, 0.6);
-}
-
-.btn.primary:hover {
-  box-shadow: 0 0 30px rgba(0, 255, 204, 0.9);
-  transform: scale(1.05);
-}
-
-.btn.secondary {
-  border: 2px solid #00c6ff;
-  color: #00eaff;
-}
-
-.btn.secondary:hover {
-  background: rgba(0, 230, 255, 0.1);
-  transform: scale(1.05);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  :root{
+    --bg-900:#020412;
+    --panel: rgba(8,16,28,0.6);
+    --cyan-600:#00c2ff;
+    --cyan-400:#39e0ff;
+    --muted:#9fb7d7;
+    --glass: rgba(255,255,255,0.04);
+    --accent: linear-gradient(90deg,var(--cyan-400),var(--cyan-600));
+    --radius:14px;
+    --soft-shadow: 0 20px 60px rgba(0,0,0,0.6);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg-900); color:#e6f7ff; -webkit-font-smoothing:antialiased;}
+  a{color:var(--cyan-600);text-decoration:none}
+  /* canvas background */
+  #bg-canvas{position:fixed;inset:0;z-index:0;display:block}
+  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,4,12,0.22), rgba(0,2,8,0.6));pointer-events:none;z-index:1}
+  /* layout */
+  .wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:28px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:6px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:82px;height:82px;border-radius:16px;background:linear-gradient(135deg,#001b2b,var(--cyan-600));display:flex;align-items:center;justify-content:center;box-shadow:0 16px 60px rgba(0,190,255,0.06), inset 0 -8px 30px rgba(255,255,255,0.03)}
+  .logo img{width:66px;height:66px;object-fit:contain;border-radius:12px;display:block}
+  h1{font-size:18px;margin:0;font-weight:700;letter-spacing:0.6px}
+  .tag{color:var(--muted);font-size:13px}
+  nav{display:flex;gap:16px;align-items:center}
+  nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:rgba(230,247,255,0.9)}
+  nav a:hover{background:linear-gradient(90deg, rgba(0,194,255,0.06), rgba(0,140,200,0.02)); color:var(--cyan-400)}
+  /* hero */
+  .hero{display:grid;grid-template-columns:1fr 520px;gap:28px;align-items:center;padding:48px 0 36px}
+  .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:36px;border-radius:18px;backdrop-filter: blur(6px);box-shadow:var(--soft-shadow)}
+  .hero-title{font-size:36px;line-height:1.02;margin:0 0 12px;color:var(--cyan-400);text-shadow:0 10px 40px rgba(0,180,255,0.04)}
+  .hero-sub{color:#cfefff;margin-bottom:18px;font-size:16px}
+  .typing { color:#dff9ff; font-weight:600; display:inline-block; border-right: 2px solid rgba(255,255,255,0.06); padding-right:6px; margin-left:6px; }
+  .cta{display:flex;gap:12px;margin-top:16px}
+  .btn{background:var(--accent);color:#021223;padding:12px 18px;border-radius:12px;border:none;font-weight:800;cursor:pointer;box-shadow:0 12px 40px rgba(0,180,255,0.08);transition:transform .16s ease,box-shadow .16s}
+  .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);box-shadow:none}
+  .btn:hover{transform:translateY(-4px)}
+  .hero-note{margin-top:14px;color:var(--muted);font-size:13px}
+  /* preview */
+  .preview{height:380px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(180deg, rgba(0,8,14,0.18), rgba(0,0,0,0.36));display:flex;align-items:center;justify-content:center}
+  .pulse-ring{width:260px;height:260px;border-radius:50%;background:radial-gradient(circle at 35% 30%, rgba(9,209,255,0.06), transparent);filter:blur(28px);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1}
+  .preview-card{position:relative;padding:18px;text-align:center;z-index:2;max-width:400px}
+  .preview-card h4{color:var(--cyan-400);margin-bottom:6px}
+  .preview-card p{color:var(--muted);font-size:13px}
+  /* sections */
+  section{padding:36px 0;border-top:1px solid rgba(255,255,255,0.02)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:rgba(5,12,20,0.62);padding:18px;border-radius:12px;transition:transform .28s ease, box-shadow .28s;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+  .card:hover{transform:translateY(-10px);box-shadow:0 30px 80px rgba(0,150,255,0.06)}
+  .card .title{font-weight:800;color:var(--cyan-400);margin-bottom:8px}
+  .muted{color:var(--muted);font-size:14px}
+  /* mockups */
+  .mock{height:180px;border-radius:12px;background:linear-gradient(135deg,#001219,#071726);box-shadow:inset 0 -8px 30px rgba(255,255,255,0.02);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .mock .screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(200,240,255,0.06);font-weight:900;font-size:22px}
+  /* services (pricing) */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
+  .service{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:18px;border-radius:12px;position:relative;overflow:hidden}
+  .price-bubble{position:absolute;right:18px;top:18px;background:linear-gradient(90deg,var(--cyan-400),var(--cyan-600));color:#021223;padding:10px 14px;border-radius:12px;font-weight:900;box-shadow:0 12px 40px rgba(0,180,255,0.08)}
+  .service .title{font-weight:800;color:#e6f7ff}
+  .service .desc{color:var(--muted);margin-top:8px}
+  .small-cta{margin-top:12px;display:flex;gap:10px}
+  /* contact */
+  .contact-row{display:flex;gap:18px;align-items:center}
+  .contact-card{flex:1;background:rgba(5,12,20,0.62);padding:18px;border-radius:12px}
+  .contact-cta{font-weight:800;color:var(--cyan-400);font-size:18px}
+  .mail{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,194,255,0.06), transparent);color:var(--cyan-300)}
+  footer{padding:30px 0;color:var(--muted);text-align:center}
+  /* responsive */
+  @media (max-width:1000px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-row{flex-direction:column}.preview{height:260px}}
+  @media (max-width:640px){.cards{grid-template-columns:1fr}.logo{width:60px;height:60px}}
+  /* entry animations */
+  .fade{opacity:0;transform:translateY(14px);transition:all .7s cubic-bezier(.2,.9,.2,1)}
+  .in{opacity:1;transform:none}
+  .label-juice{display:inline-block;background:linear-gradient(90deg, rgba(0,194,255,0.08), transparent);padding:6px 10px;border-radius:999px;color:var(--cyan-300);font-weight:700}
 </style>
+</head>
+<body>
 
-<!-- ✅ PARTICLE SCRIPT -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div class="overlay" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo" id="logo"><img src="logo.png" alt="CodeByDavid logo" onerror="this.style.display='none'"></div>
+      <div>
+        <h1>CodeByDavid</h1>
+        <div class="tag">Futuristic web experiences • HTML • JS • Performance</div>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- NEW HERO (innovative, bold) -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-card fade">
+        <h2 class="hero-title">Designing the Web of <span style="background:linear-gradient(90deg,#00ffff,#0077ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Tomorrow</span> — Fast, Elegant & Intelligent.</h2>
+        <p class="hero-sub">At <strong>CodeByDavid</strong>, we craft next-generation digital experiences — optimized, futuristic, and ready for scale.
+          <span class="typing" id="typing"></span>
+        </p>
+
+        <div class="cta">
+          <button class="btn" id="hireBtn">Quick Start — $12</button>
+          <button class="btn secondary" id="seeBtn">Explore Projects</button>
+        </div>
+
+        <div class="hero-note">Delivery support, mobile-ready, and performance optimization included.</div>
+      </div>
+
+      <div class="preview fade" aria-hidden="true">
+        <div class="pulse-ring"></div>
+        <div class="preview-card">
+          <h4>Interactive Demo</h4>
+          <p class="muted">High-fidelity mockups showing real-world site examples below.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="fade" aria-label="About">
+      <div class="card">
+        <h3 class="title">About Me</h3>
+        <p class="muted" style="font-size:15px;line-height:1.6">
+          I'm David — a professional front-end developer focused on creating fast, elegant and conversion-oriented websites.
+          I combine clean HTML/CSS, pragmatic JavaScript and performance-first practices to deliver measurable results: faster load times,
+          clear user journeys and interfaces that convert. I build landing pages, portfolios and small-business sites designed to grow revenue.
+        </p>
+
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <span class="label-juice">Modern UI & Microinteractions</span>
+          <span class="label-juice">Mobile-first & Performance</span>
+          <span class="label-juice">Deployment & Delivery</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="fade" aria-label="Selected Projects">
+      <h3 class="title">Selected Projects</h3>
+      <div class="cards" style="margin-top:12px">
+        <!-- Project 1 -->
+        <div class="card">
+          <div class="mock" aria-hidden="true"><div class="screen">NOVA AGENCY</div></div>
+          <div style="margin-top:12px"><div class="title">Nova Agency — Landing</div><div class="muted">Elegant startup landing with animated hero, CTA optimization and fast performance.</div></div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn small demo-btn">Live preview</button>
+            <button class="btn secondary small">View details</button>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="card">
+          <div class="mock" aria-hidden="true"><div class="screen">ZENAPP</div></div>
+          <div style="margin-top:12px"><div class="title">ZenApp — Product</div><div class="muted">Minimal product site with clear buy funnel and mobile-first interactions.</div></div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn small demo-btn">Live preview</button>
+            <button class="btn secondary small">View details</button>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="card">
+          <div class="mock" aria-hidden="true"><div class="screen">ATLAS</div></div>
+          <div style="margin-top:12px"><div class="title">Atlas Store — E-commerce</div><div class="muted">Clean product grid, fast filtering, and checkout-ready layout.</div></div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn small demo-btn">Live preview</button>
+            <button class="btn secondary small">View details</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES / PRICING -->
+    <section id="services" class="fade" aria-label="Services & Pricing">
+      <h3 class="title">Services & Packages</h3>
+      <div class="services">
+        <div class="service">
+          <div class="price-bubble">$12</div>
+          <div class="title">Landing Page — Quick Start</div>
+          <div class="desc">One-page responsive landing with deployed link. 24–48h delivery. Perfect to capture leads quickly.</div>
+          <div class="small-cta">
+            <button class="btn" onclick="contactWithProduct('Landing Page — Quick Start','$12')">Get it</button>
+            <button class="btn secondary" onclick="openDemo()">Preview</button>
+          </div>
+        </div>
+
+        <div class="service">
+          <div class="price-bubble">$30</div>
+          <div class="title">Portfolio — Professional</div>
+          <div class="desc">Multi-section portfolio with animations, mobile optimization and delivery guidance. Ideal for freelancers & creatives.</div>
+          <div class="small-cta">
+            <button class="btn" onclick="contactWithProduct('Portfolio — Professional','$30')">Get it</button>
+            <button class="btn secondary" onclick="openDemo()">Preview</button>
+          </div>
+        </div>
+
+        <div class="service">
+          <div class="price-bubble">$60</div>
+          <div class="title">Custom Site — Starter</div>
+          <div class="desc">Custom small-business website (responsive + deployment). Price starts at $60 — contact to discuss scope.</div>
+          <div class="small-cta">
+            <button class="btn" onclick="contactWithProduct('Custom Site — Starter','$60')">Request quote</button>
+            <button class="btn secondary" onclick="openDemo()">Preview</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="fade" aria-label="Contact">
+      <h3 class="title">Contact</h3>
+      <div class="contact-row">
+        <div class="contact-card">
+          <div class="contact-cta">Ready to start your project?</div>
+          <div class="muted" style="margin-top:8px">Fast replies and clear delivery timelines. Communication & payment via your preferred freelance channel.</div>
+          <div style="margin-top:12px"><span class="mail">✉️ <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></span></div>
+          <div style="margin-top:10px;color:var(--muted);font-size:13px">Include a short description of your project and your deadline for fastest response.</div>
+        </div>
+
+        <div class="contact-card">
+          <div class="muted">Want to see packages again?</div>
+          <div style="margin-top:10px"><button class="btn" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See Packages</button></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>© <span id="year"></span> CodeByDavid — Futuristic web experiences</footer>
+</div>
+
 <script>
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 80 },
-    color: { value: "#00eaff" },
-    shape: { type: "circle" },
-    opacity: { value: 0.6, random: true },
-    size: { value: 3, random: true },
-    line_linked: {
-      enable: true,
-      distance: 150,
-      color: "#00eaff",
-      opacity: 0.2,
-      width: 1,
-    },
-    move: { enable: true, speed: 1.5, direction: "none", random: false, out_mode: "out" },
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: {
-      onhover: { enable: true, mode: "grab" },
-      onclick: { enable: true, mode: "push" },
-    },
-    modes: {
-      grab: { distance: 180, line_linked: { opacity: 0.4 } },
-      push: { particles_nb: 4 },
-    },
-  },
-  retina_detect: true,
+/* ---------- Canvas background: adaptive particle field ---------- */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W = canvas.width = innerWidth;
+let H = canvas.height = innerHeight;
+let particles = [];
+const DENSITY = Math.max(32, Math.floor((W*H)/85000));
+function rand(min,max){return Math.random()*(max-min)+min;}
+function resize(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; init(); }
+addEventListener('resize', ()=>{ resize(); });
+
+function Particle(){
+  this.x = rand(0,W);
+  this.y = rand(0,H);
+  this.vx = rand(-0.35,0.35);
+  this.vy = rand(-0.14,0.14);
+  this.r = rand(0.7,2.8);
+  this.a = rand(0.18,0.95);
+}
+function init(){
+  particles = [];
+  for(let i=0;i<DENSITY;i++) particles.push(new Particle());
+}
+function connect(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const p = particles[i], q = particles[j];
+      const dx = p.x-q.x, dy = p.y-q.y;
+      const d = Math.sqrt(dx*dx+dy*dy);
+      if(d<140){
+        const alpha = 0.18*(1 - d/140);
+        ctx.strokeStyle = `rgba(45,200,255,${alpha})`;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+      }
+    }
+  }
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const g = ctx.createRadialGradient(W*0.12,H*0.06,0,W*0.8,H*0.8,Math.max(W,H));
+  g.addColorStop(0,'rgba(0,60,90,0.12)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  particles.forEach(p=>{
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0) p.x = W; if(p.x>W) p.x=0;
+    if(p.y<0) p.y = H; if(p.y>H) p.y=0;
+    ctx.fillStyle = `rgba(0,200,255,${p.a})`;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+  });
+  connect();
+  ctx.strokeStyle = 'rgba(0,120,180,0.02)'; ctx.lineWidth = 1;
+  for(let x=0;x<W;x+=140){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  requestAnimationFrame(draw);
+}
+init(); draw();
+
+/* ---------- Entry animations ---------- */
+const fadeEls = document.querySelectorAll('.fade');
+const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:0.12});
+fadeEls.forEach(el=>io.observe(el));
+
+/* ---------- Typing effect (hero subtitle) ---------- */
+const typingEl = document.getElementById('typing');
+const phrases = [
+  'performance-first architecture.',
+  'pixel-perfect UI & microinteractions.',
+  'fast delivery and clean code.',
+  'scalable, maintainable websites.'
+];
+let tIndex = 0, charIndex = 0, forward = true;
+function typeLoop(){
+  const phrase = phrases[tIndex];
+  if(forward){
+    charIndex++;
+    if(charIndex > phrase.length){ forward=false; setTimeout(typeLoop,1200); return; }
+  } else {
+    charIndex--;
+    if(charIndex < 0){ forward=true; tIndex=(tIndex+1)%phrases.length; setTimeout(typeLoop,600); return; }
+  }
+  typingEl.textContent = phrase.slice(0,charIndex);
+  setTimeout(typeLoop, forward ? 60 : 30);
+}
+setTimeout(typeLoop,900);
+
+/* ---------- Micro-sounds ---------- */
+let audioCtx;
+function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+function playHover(){
+  ensureAudio();
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type='sine'; o.frequency.setValueAtTime(680,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(980,audioCtx.currentTime+0.06);
+  g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.02,audioCtx.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12);
+  o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),140);
+}
+function playClick(){
+  ensureAudio();
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type='triangle'; o.frequency.setValueAtTime(320,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(140,audioCtx.currentTime+0.12);
+  g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.05,audioCtx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.25);
+  o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),260);
+}
+document.querySelectorAll('.btn, .project, .demo-btn').forEach(el=>{
+  el.addEventListener('mouseenter', ()=>{ try{ playHover(); }catch(e){} });
+  el.addEventListener('click', ()=>{ try{ playClick(); }catch(e){} });
 });
+
+/* ---------- helpers ---------- */
+document.getElementById('year').innerText = new Date().getFullYear();
+document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Quick%20Start%20-%20Landing%20Page');
+document.getElementById('seeBtn').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
+
+function openDemo(){ alert('Preview mode — when ready I will link live demos here.'); }
+function contactWithProduct(product,price){
+  const subject = encodeURIComponent('Order: '+product+' — '+price);
+  const body = encodeURIComponent('Hi, I would like to order '+product+". Please share next steps and delivery time.\\n\\nThanks.");
+  location.href = `mailto:santamariadavid0724@gmail.com?subject=${subject}&body=${body}`;
+}
 </script>
+</body>
+</html>
