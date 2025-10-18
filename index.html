@@ -1,215 +1,272 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CodeByDavid — Futuristic Web Developer</title>
-<meta name="description" content="CodeByDavid — futuristic, interactive web developer portfolio." />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg-900:#020412;
-    --panel: rgba(10,18,30,0.6);
-    --cyan-600:#00c2ff;
-    --cyan-400:#39e0ff;
-    --muted:#9fb7d7;
-    --glass: rgba(255,255,255,0.04);
-    --radius:14px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg-900); color:#e6f7ff; -webkit-font-smoothing:antialiased;}
-  a{color:var(--cyan-600);text-decoration:none}
-  /* canvas background */
-  #bg-canvas{position:fixed;inset:0;z-index:0;display:block}
-  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,4,12,0.25), rgba(0,2,8,0.6));pointer-events:none;z-index:1}
-  /* page layout */
-  .wrap{position:relative;z-index:2;max-width:1150px;margin:0 auto;padding:28px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:6px}
-  .brand{display:flex;align-items:center;gap:14px}
-  .logo{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,#001b2b,var(--cyan-600));display:flex;align-items:center;justify-content:center;box-shadow:0 10px 40px rgba(0,190,255,0.06), inset 0 -8px 30px rgba(255,255,255,0.03)}
-  .logo img{width:56px;height:56px;object-fit:contain;border-radius:8px}
-  h1{font-size:18px;margin:0;font-weight:700;letter-spacing:0.6px}
-  .tag{color:var(--muted);font-size:13px}
-  nav{display:flex;gap:16px;align-items:center}
-  nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:rgba(230,247,255,0.9)}
-  nav a:hover{background:linear-gradient(90deg, rgba(0,194,255,0.08), rgba(0,140,200,0.03)); color:var(--cyan-400)}
-  /* hero */
-  .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:48px 0}
-  .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:32px;border-radius:18px;backdrop-filter: blur(6px);box-shadow:0 18px 60px rgba(0,0,0,0.6)}
-  .hero h2{font-size:34px;line-height:1.02;margin:0 0 10px;color:var(--cyan-400);text-shadow:0 8px 40px rgba(0,180,255,0.04)}
-  .lead{color:#cfefff;margin-bottom:18px}
-  .cta{display:flex;gap:12px;margin-top:10px}
-  .btn{background:linear-gradient(90deg,var(--cyan-400),var(--cyan-600));color:#021223;padding:12px 18px;border-radius:12px;border:none;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(0,180,255,0.08), inset 0 -6px 20px rgba(255,255,255,0.03);transition:transform .16s ease, box-shadow .16s}
-  .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);box-shadow:none}
-  .btn:hover{transform:translateY(-4px)}
-  /* preview card */
-  .preview{height:340px;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(180deg, rgba(0,8,14,0.25), rgba(0,0,0,0.4));display:flex;align-items:center;justify-content:center}
-  .preview .glass{position:absolute;inset:0;background:linear-gradient(90deg, rgba(15,180,255,0.03), transparent);pointer-events:none}
-  .preview-card{position:relative;padding:18px;text-align:center;z-index:2}
-  .pulse-ring{width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 30%, rgba(9,209,255,0.06), transparent);filter:blur(26px);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1}
-  /* sections */
-  section{padding:36px 0;border-top:1px solid rgba(255,255,255,0.02)}
-  .grid{display:grid;gap:18px}
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{background:rgba(5,12,20,0.6);padding:18px;border-radius:12px;transition:transform .28s ease, box-shadow .28s;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
-  .card:hover{transform:translateY(-10px);box-shadow:0 30px 80px rgba(0,150,255,0.06)}
-  .card .title{font-weight:700;color:var(--cyan-400);margin-bottom:8px}
-  .muted{color:var(--muted);font-size:14px}
-  /* services row */
-  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
-  .service{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:18px;border-radius:12px}
-  .price{font-size:20px;font-weight:800;color:var(--cyan-600);margin-top:8px}
-  /* contact */
-  .contact-row{display:flex;gap:18px;align-items:center}
-  .contact-card{flex:1;background:rgba(5,12,20,0.6);padding:18px;border-radius:12px}
-  .contact-cta{font-weight:700;color:var(--cyan-400);font-size:18px}
-  .mail{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,194,255,0.06), transparent);color:var(--cyan-300)}
-  /* footer */
-  footer{padding:30px 0;color:var(--muted);text-align:center}
-  /* responsive */
-  @media (max-width:980px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-row{flex-direction:column}.preview{height:220px}}
-  @media (max-width:640px){.cards{grid-template-columns:1fr}.logo{width:56px;height:56px}}
-  /* subtle entry animations */
-  .fade{opacity:0;transform:translateY(14px);transition:all .7s cubic-bezier(.2,.9,.2,1)}
-  .in{opacity:1;transform:none}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CodeByDavid — Futuristic Web Developer</title>
+  <meta name="description" content="CodeByDavid — futuristic, interactive web developer portfolio." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-900:#020412;
+      --panel: rgba(8,16,28,0.6);
+      --cyan-600:#00c2ff;
+      --cyan-400:#39e0ff;
+      --muted:#9fb7d7;
+      --glass: rgba(255,255,255,0.04);
+      --accent: linear-gradient(90deg,var(--cyan-400),var(--cyan-600));
+      --radius:14px;
+      --soft-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg-900); color:#e6f7ff; -webkit-font-smoothing:antialiased;}
+    a{color:var(--cyan-600);text-decoration:none}
+    /* canvas background */
+    #bg-canvas{position:fixed;inset:0;z-index:0;display:block}
+    .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,4,12,0.22), rgba(0,2,8,0.6));pointer-events:none;z-index:1}
+    /* page layout */
+    .wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:6px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:82px;height:82px;border-radius:16px;background:linear-gradient(135deg,#001b2b,var(--cyan-600));display:flex;align-items:center;justify-content:center;box-shadow:0 16px 60px rgba(0,190,255,0.06), inset 0 -8px 30px rgba(255,255,255,0.03)}
+    .logo img{width:66px;height:66px;object-fit:contain;border-radius:12px;display:block}
+    h1{font-size:18px;margin:0;font-weight:700;letter-spacing:0.6px}
+    .tag{color:var(--muted);font-size:13px}
+    nav{display:flex;gap:16px;align-items:center}
+    nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:rgba(230,247,255,0.9)}
+    nav a:hover{background:linear-gradient(90deg, rgba(0,194,255,0.06), rgba(0,140,200,0.02)); color:var(--cyan-400)}
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 460px;gap:28px;align-items:center;padding:48px 0}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:36px;border-radius:18px;backdrop-filter: blur(6px);box-shadow:var(--soft-shadow)}
+    .hero h2{font-size:36px;line-height:1.02;margin:0 0 12px;color:var(--cyan-400);text-shadow:0 10px 40px rgba(0,180,255,0.04)}
+    .lead{color:#cfefff;margin-bottom:18px;font-size:16px}
+    .cta{display:flex;gap:12px;margin-top:10px}
+    .btn{background:var(--accent);color:#021223;padding:12px 18px;border-radius:12px;border:none;font-weight:800;cursor:pointer;box-shadow:0 12px 40px rgba(0,180,255,0.08);transition:transform .16s ease,box-shadow .16s}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);box-shadow:none}
+    .btn:hover{transform:translateY(-4px)}
+    .hero-subtle{margin-top:14px;color:var(--muted);font-size:13px}
+    /* preview */
+    .preview{height:360px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(180deg, rgba(0,8,14,0.18), rgba(0,0,0,0.36));display:flex;align-items:center;justify-content:center}
+    .pulse-ring{width:260px;height:260px;border-radius:50%;background:radial-gradient(circle at 35% 30%, rgba(9,209,255,0.06), transparent);filter:blur(28px);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1}
+    .preview-card{position:relative;padding:18px;text-align:center;z-index:2;max-width:320px}
+    .preview-card h4{color:var(--cyan-400);margin-bottom:6px}
+    .preview-card p{color:var(--muted);font-size:13px}
+    /* sections */
+    section{padding:36px 0;border-top:1px solid rgba(255,255,255,0.02)}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:rgba(5,12,20,0.62);padding:18px;border-radius:12px;transition:transform .28s ease, box-shadow .28s;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+    .card:hover{transform:translateY(-10px);box-shadow:0 30px 80px rgba(0,150,255,0.06)}
+    .card .title{font-weight:800;color:var(--cyan-400);margin-bottom:8px}
+    .muted{color:var(--muted);font-size:14px}
+    /* projects mockups */
+    .mock{height:160px;border-radius:10px;background:linear-gradient(135deg,#001219,#071726);box-shadow:inset 0 -8px 30px rgba(255,255,255,0.02);position:relative;overflow:hidden}
+    .mock .screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(200,240,255,0.06);font-weight:800;font-size:24px}
+    /* services / pricing — juicy visual style */
+    .services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
+    .service{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:18px;border-radius:12px;position:relative;overflow:hidden}
+    .price-bubble{position:absolute;right:18px;top:18px;background:linear-gradient(90deg,var(--cyan-400),var(--cyan-600));color:#021223;padding:10px 14px;border-radius:12px;font-weight:900;box-shadow:0 12px 40px rgba(0,180,255,0.08)}
+    .service .title{font-weight:800;color:#e6f7ff}
+    .service .desc{color:var(--muted);margin-top:8px}
+    .small-cta{margin-top:12px;display:flex;gap:10px}
+    /* contact */
+    .contact-row{display:flex;gap:18px;align-items:center}
+    .contact-card{flex:1;background:rgba(5,12,20,0.62);padding:18px;border-radius:12px}
+    .contact-cta{font-weight:800;color:var(--cyan-400);font-size:18px}
+    .mail{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,194,255,0.06), transparent);color:var(--cyan-300)}
+    footer{padding:30px 0;color:var(--muted);text-align:center}
+    /* responsive */
+    @media (max-width:1000px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-row{flex-direction:column}.preview{height:240px}}
+    @media (max-width:640px){.cards{grid-template-columns:1fr}.logo{width:60px;height:60px}}
+    /* subtle entry animations */
+    .fade{opacity:0;transform:translateY(14px);transition:all .7s cubic-bezier(.2,.9,.2,1)}
+    .in{opacity:1;transform:none}
+    /* neon label */
+    .label-juice{display:inline-block;background:linear-gradient(90deg, rgba(0,194,255,0.08), transparent);padding:6px 10px;border-radius:999px;color:var(--cyan-300);font-weight:700}
+  </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
-<div class="overlay"></div>
+  <canvas id="bg-canvas"></canvas>
+  <div class="overlay"></div>
 
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="logo" id="logo"><img src="logo.png" alt="CodeByDavid logo" onerror="this.style.display='none'"></div>
-      <div>
-        <h1>CodeByDavid</h1>
-        <div class="tag">Futuristic web experiences • HTML • JS • Performance</div>
-      </div>
-    </div>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-card fade" id="heroCard">
-        <h2 id="heroTitle">Hi, I'm David — building modern, interactive & intelligent web experiences.</h2>
-        <p class="lead muted">I create high-performance, beautiful sites with smooth micro-interactions — built with HTML, CSS & JS.</p>
-        <div class="cta">
-          <button class="btn" id="hireBtn">Hire — $20 quick-start</button>
-          <button class="btn secondary" id="seeBtn">See projects</button>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" id="logo"><img src="logo.png" alt="CodeByDavid logo" onerror="this.style.display='none'"></div>
+        <div>
+          <h1>CodeByDavid</h1>
+          <div class="tag">Futuristic web experiences • HTML • JS • Performance</div>
         </div>
-        <div style="margin-top:16px" class="muted">Quick demo • GitHub Pages ready • Fast delivery</div>
       </div>
 
-      <div class="preview fade" id="preview">
-        <div class="pulse-ring"></div>
-        <div class="preview-card">
-          <div style="font-weight:800;color:var(--cyan-400);font-size:18px">Interactive Demo</div>
-          <div class="muted" style="margin-top:8px">Hover project cards to preview effects</div>
-        </div>
-      </div>
-    </section>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
 
-    <section id="about" class="fade">
-      <div class="card">
-        <h3 class="title">About Me</h3>
-        <p class="muted">Freelance web developer focused on clean, fast and delightful web experiences. I craft landing pages, portfolios and small business websites optimized for speed and conversions.</p>
-      </div>
-    </section>
+    <main>
+      <!-- HERO - redesigned, more striking -->
+      <section class="hero">
+        <div class="hero-card fade" id="heroCard">
+          <h2 id="heroTitle">Crafting future-ready websites that convert — fast, elegant & effective.</h2>
+          <p class="lead muted">I design and build production-ready web experiences with strong performance, thoughtful UX and signature micro-interactions. If you want a site that looks premium and performs fast, you're in the right place.</p>
 
-    <section id="projects" class="fade">
-      <h3 class="title">Selected Projects</h3>
-      <div class="cards" style="margin-top:12px">
-        <div class="card project" tabindex="0">
-          <div class="title">Interactive Landing</div>
-          <div class="muted">Animated CTA, performance-first, light JS bundle.</div>
-        </div>
-        <div class="card project" tabindex="0">
-          <div class="title">Portfolio Showcase</div>
-          <div class="muted">Accessible gallery with smooth transitions.</div>
-        </div>
-        <div class="card project" tabindex="0">
-          <div class="title">CodeBot Concept</div>
-          <div class="muted">AI/robotic themed demo with visuals & micro-interactions.</div>
-        </div>
-      </div>
-    </section>
+          <div class="cta">
+            <!-- Primary CTA intentionally low-priced to secure first clients -->
+            <button class="btn" id="hireBtn">Quick Start — $15</button>
+            <button class="btn secondary" id="seeBtn">Explore projects</button>
+          </div>
 
-    <section id="services" class="fade">
-      <h3 class="title">Services & Products</h3>
-      <div class="services">
-        <div class="service">
-          <div class="title">Landing — Starter</div>
-          <div class="price">$20</div>
-          <div class="muted">One-page, GitHub Pages setup, 24h turnaround.</div>
+          <div class="hero-subtle">Deliverables include mobile-ready layout, optimized assets, and deployment support.</div>
         </div>
-        <div class="service">
-          <div class="title">Portfolio — Pro</div>
-          <div class="price">$45</div>
-          <div class="muted">Multi-section portfolio, animations & deployment.</div>
-        </div>
-        <div class="service">
-          <div class="title">Custom Site</div>
-          <div class="price">Starting $100</div>
-          <div class="muted">Custom sites for small businesses. Contact for quote.</div>
-        </div>
-      </div>
-    </section>
 
-    <section id="contact" class="fade">
-      <h3 class="title">Contact</h3>
-      <div class="contact-row">
-        <div class="contact-card">
-          <div class="contact-cta">Ready to start?</div>
-          <div class="muted">Quick replies. Deliveries via Fiverr/Upwork preferred.</div>
-          <div style="margin-top:12px"><span class="mail">✉️ <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></span></div>
+        <div class="preview fade" id="preview">
+          <div class="pulse-ring"></div>
+          <div class="preview-card">
+            <h4>Interactive Demo</h4>
+            <p class="muted">Mockups & previews below — click a project to see summary and contact to buy.</p>
+          </div>
         </div>
-        <div class="contact-card">
-          <div class="muted">GitHub</div>
-          <div style="margin-top:8px"><a href="#" id="ghLink">github.com/your-username</a></div>
+      </section>
+
+      <!-- ABOUT - juicier, convincing -->
+      <section id="about" class="fade">
+        <div class="card">
+          <h3 class="title">About Me</h3>
+          <p class="muted" style="font-size:15px;line-height:1.6">
+            I'm David — a professional front-end developer focused on creating fast, beautiful and conversion-oriented websites.
+            I combine clean HTML/CSS, pragmatic JavaScript and performance-first best practices to deliver results: faster loading pages,
+            clear user journeys and interfaces that build trust. I’ve built landing pages, portfolios and small-business sites designed to
+            increase engagement and sales. I provide clear delivery timelines and responsive support.
+          </p>
+
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+            <span class="label-juice">Modern UI & Microinteractions</span>
+            <span class="label-juice">Mobile-first & Performance</span>
+            <span class="label-juice">Deployment & Delivery</span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-  </main>
+      <!-- PROJECTS - more premium visuals, simulated mockups -->
+      <section id="projects" class="fade">
+        <h3 class="title">Selected Projects</h3>
+        <div class="cards" style="margin-top:12px">
+          <div class="card">
+            <div class="mock" aria-hidden="true"><div class="screen">NOV AGENCY</div></div>
+            <div style="margin-top:12px"><div class="title">Nova Agency — Landing</div><div class="muted">Elegant startup landing with animated hero, CTA optimization and fast performance.</div></div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="btn small demo-btn">Live preview</button>
+              <button class="btn secondary small">View details</button>
+            </div>
+          </div>
 
-  <footer>
-    © <span id="year"></span> CodeByDavid — Futuristic web experiences
-  </footer>
-</div>
+          <div class="card">
+            <div class="mock"><div class="screen">ZENAPP</div></div>
+            <div style="margin-top:12px"><div class="title">ZenApp — Product</div><div class="muted">Minimal product site with clear buy funnel and mobile-first interactions.</div></div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="btn small demo-btn">Live preview</button>
+              <button class="btn secondary small">View details</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="mock"><div class="screen">ATLAS</div></div>
+            <div style="margin-top:12px"><div class="title">Atlas Store — E-commerce prototype</div><div class="muted">Product grid, fast filtering, and a checkout-ready layout.</div></div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="btn small demo-btn">Live preview</button>
+              <button class="btn secondary small">View details</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES — prices updated & visually juicy (no 'offer' words) -->
+      <section id="services" class="fade">
+        <h3 class="title">Services & Packages</h3>
+        <div class="services">
+          <div class="service">
+            <div class="price-bubble">$15</div>
+            <div class="title">Landing Page — Quick Start</div>
+            <div class="desc">One-page responsive landing with deployed link and 24–48h turnaround. Ideal to start selling or capture leads fast.</div>
+            <div class="small-cta">
+              <button class="btn" onclick="contactWithProduct('Landing Page — Quick Start','$15')">Get it</button>
+              <button class="btn secondary" onclick="openDemo()">Preview</button>
+            </div>
+          </div>
+
+          <div class="service">
+            <div class="price-bubble">$35</div>
+            <div class="title">Portfolio — Professional</div>
+            <div class="desc">Multi-section portfolio with animations, mobile optimization and deployment guidance. Perfect for freelancers and creatives.</div>
+            <div class="small-cta">
+              <button class="btn" onclick="contactWithProduct('Portfolio — Professional','$35')">Get it</button>
+              <button class="btn secondary" onclick="openDemo()">Preview</button>
+            </div>
+          </div>
+
+          <div class="service">
+            <div class="price-bubble">$80</div>
+            <div class="title">Custom Site — Starter</div>
+            <div class="desc">Custom small-business website. Includes layout, responsive styles, and handoff. Price starts at $80 (contact to discuss scope).</div>
+            <div class="small-cta">
+              <button class="btn" onclick="contactWithProduct('Custom Site — Starter','$80')">Request quote</button>
+              <button class="btn secondary" onclick="openDemo()">Preview</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="fade">
+        <h3 class="title">Contact</h3>
+        <div class="contact-row">
+          <div class="contact-card">
+            <div class="contact-cta">Ready to start your project?</div>
+            <div class="muted" style="margin-top:8px">Fast replies and clear delivery timelines. Payment & communication through your preferred freelance channel.</div>
+            <div style="margin-top:12px"><span class="mail">✉️ <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></span></div>
+            <div style="margin-top:10px;color:var(--muted);font-size:13px">Please include a short description and your deadline for fastest response.</div>
+          </div>
+
+          <div class="contact-card">
+            <div class="muted">Quick connect</div>
+            <div style="margin-top:10px"><button class="btn" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See Packages</button></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>© <span id="year"></span> CodeByDavid — Futuristic web experiences</footer>
+  </div>
 
 <script>
-/* ---- Canvas background: interactive particle field (futuristic) ---- */
+/* ---------- Canvas background: adaptive particle field ---------- */
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let W = canvas.width = innerWidth;
 let H = canvas.height = innerHeight;
-const particles = [];
-const PARTICLE_COUNT = Math.floor((W*H)/70000); // adaptive density
+let particles = [];
+const DENSITY = Math.max(24, Math.floor((W*H)/85000));
 
-function rand(min,max){return Math.random()*(max-min)+min}
-function resize(){W=canvas.width=innerWidth; H=canvas.height=innerHeight;}
-addEventListener('resize', ()=>{resize(); initParticles();});
+function rand(min,max){return Math.random()*(max-min)+min;}
+function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; init(); }
+addEventListener('resize', ()=>{ resize(); });
 
 function Particle(){
   this.x = rand(0,W);
   this.y = rand(0,H);
   this.vx = rand(-0.25,0.25);
-  this.vy = rand(-0.1,0.1);
-  this.r = rand(0.6,2.2);
-  this.a = rand(0.2,0.9);
+  this.vy = rand(-0.12,0.12);
+  this.r = rand(0.7,2.5);
+  this.a = rand(0.18,0.9);
 }
-function initParticles(){
-  particles.length=0;
-  const count = Math.max(30, PARTICLE_COUNT);
-  for(let i=0;i<count;i++) particles.push(new Particle());
+function init(){
+  particles = [];
+  for(let i=0;i<DENSITY;i++) particles.push(new Particle());
 }
 function connect(){
   for(let i=0;i<particles.length;i++){
@@ -227,13 +284,11 @@ function connect(){
 }
 function draw(){
   ctx.clearRect(0,0,W,H);
-  // subtle radial glow
-  const g = ctx.createRadialGradient(W*0.15,H*0.12,0,W*0.6,H*0.6,Math.max(W,H));
-  g.addColorStop(0,'rgba(0,60,90,0.18)');
+  const g = ctx.createRadialGradient(W*0.12,H*0.06,0,W*0.8,H*0.8,Math.max(W,H));
+  g.addColorStop(0,'rgba(0,60,90,0.12)');
   g.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
 
-  // particles
   particles.forEach(p=>{
     p.x += p.vx; p.y += p.vy;
     if(p.x<0) p.x = W; if(p.x>W) p.x=0;
@@ -242,19 +297,19 @@ function draw(){
     ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
   });
   connect();
-  // animated grid lines (subtle)
+  // subtle vertical lines for depth
   ctx.strokeStyle = 'rgba(0,120,180,0.02)'; ctx.lineWidth = 1;
-  for(let x=0;x<W;x+=120){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for(let x=0;x<W;x+=140){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
   requestAnimationFrame(draw);
 }
-initParticles(); draw();
+init(); draw();
 
-/* ---- Simple entry animations for elements ---- */
+/* ---------- Entry animations (intersection) ---------- */
 const fadeEls = document.querySelectorAll('.fade');
 const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:0.12});
 fadeEls.forEach(el=>io.observe(el));
 
-/* ---- small interactive sounds (WebAudio) ---- */
+/* ---------- Micro-sounds (WebAudio) ---------- */
 let audioCtx;
 function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
 function playHover(){
@@ -276,10 +331,17 @@ document.querySelectorAll('.btn, .project').forEach(el=>{
   el.addEventListener('click', ()=>{ try{ playClick(); }catch(e){} });
 });
 
-/* ---- helper actions ---- */
+/* ---------- helpers ---------- */
 document.getElementById('year').innerText = new Date().getFullYear();
-document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Hire%20CodeByDavid');
+document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Quick%20Start%20-%20Landing%20Page');
 document.getElementById('seeBtn').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
+
+function openDemo(){ alert('Preview mode — when ready I will link live demos here.'); }
+function contactWithProduct(product,price){
+  const subject = encodeURIComponent('Order: '+product+' — '+price);
+  const body = encodeURIComponent('Hi, I would like to order '+product+". Please share next steps and delivery time.\\n\\nThanks.");
+  location.href = `mailto:santamariadavid0724@gmail.com?subject=${subject}&body=${body}`;
+}
 </script>
 </body>
 </html>
