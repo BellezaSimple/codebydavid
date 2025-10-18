@@ -1,235 +1,285 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodeByDavid</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      color: #fff;
-      overflow-x: hidden;
-      background-color: #000;
-    }
-
-    /* Background Video */
-    video#bg-video {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      filter: brightness(0.4);
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 30px 60px;
-      position: fixed;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      z-index: 100;
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      color: #00aaff;
-      letter-spacing: 2px;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 30px;
-      transition: 0.3s;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      color: #00aaff;
-    }
-
-    section {
-      padding: 120px 60px;
-      min-height: 100vh;
-    }
-
-    .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .hero h2 {
-      font-size: 3rem;
-      color: #00aaff;
-      text-shadow: 0 0 20px #00aaff;
-      animation: glow 2s infinite alternate;
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #00aaff;
-      }
-      to {
-        text-shadow: 0 0 25px #00ffff;
-      }
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 20px;
-      max-width: 700px;
-      color: #cfcfcf;
-    }
-
-    .btn {
-      margin-top: 40px;
-      padding: 14px 30px;
-      background: linear-gradient(90deg, #007bff, #00d4ff);
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.4s;
-    }
-
-    .btn:hover {
-      transform: scale(1.1);
-      background: linear-gradient(90deg, #00d4ff, #007bff);
-    }
-
-    .about, .projects, .contact {
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 20px;
-      padding: 60px;
-      margin-bottom: 40px;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      color: #00aaff;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .projects .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 30px;
-    }
-
-    .card {
-      background: #0a0a0a;
-      border-radius: 15px;
-      padding: 20px;
-      transition: 0.3s;
-      text-align: center;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 20px #00aaff;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: #888;
-      background: rgba(0, 0, 0, 0.8);
-      font-size: 0.9rem;
-    }
-
-    .contact-info {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .contact-info a {
-      color: #00aaff;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-
-    .contact-info a:hover {
-      color: #00ffff;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CodeByDavid — Futuristic Web Developer</title>
+<meta name="description" content="CodeByDavid — futuristic, interactive web developer portfolio." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-900:#020412;
+    --panel: rgba(10,18,30,0.6);
+    --cyan-600:#00c2ff;
+    --cyan-400:#39e0ff;
+    --muted:#9fb7d7;
+    --glass: rgba(255,255,255,0.04);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg-900); color:#e6f7ff; -webkit-font-smoothing:antialiased;}
+  a{color:var(--cyan-600);text-decoration:none}
+  /* canvas background */
+  #bg-canvas{position:fixed;inset:0;z-index:0;display:block}
+  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,4,12,0.25), rgba(0,2,8,0.6));pointer-events:none;z-index:1}
+  /* page layout */
+  .wrap{position:relative;z-index:2;max-width:1150px;margin:0 auto;padding:28px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:6px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,#001b2b,var(--cyan-600));display:flex;align-items:center;justify-content:center;box-shadow:0 10px 40px rgba(0,190,255,0.06), inset 0 -8px 30px rgba(255,255,255,0.03)}
+  .logo img{width:56px;height:56px;object-fit:contain;border-radius:8px}
+  h1{font-size:18px;margin:0;font-weight:700;letter-spacing:0.6px}
+  .tag{color:var(--muted);font-size:13px}
+  nav{display:flex;gap:16px;align-items:center}
+  nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:rgba(230,247,255,0.9)}
+  nav a:hover{background:linear-gradient(90deg, rgba(0,194,255,0.08), rgba(0,140,200,0.03)); color:var(--cyan-400)}
+  /* hero */
+  .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:48px 0}
+  .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:32px;border-radius:18px;backdrop-filter: blur(6px);box-shadow:0 18px 60px rgba(0,0,0,0.6)}
+  .hero h2{font-size:34px;line-height:1.02;margin:0 0 10px;color:var(--cyan-400);text-shadow:0 8px 40px rgba(0,180,255,0.04)}
+  .lead{color:#cfefff;margin-bottom:18px}
+  .cta{display:flex;gap:12px;margin-top:10px}
+  .btn{background:linear-gradient(90deg,var(--cyan-400),var(--cyan-600));color:#021223;padding:12px 18px;border-radius:12px;border:none;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(0,180,255,0.08), inset 0 -6px 20px rgba(255,255,255,0.03);transition:transform .16s ease, box-shadow .16s}
+  .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);box-shadow:none}
+  .btn:hover{transform:translateY(-4px)}
+  /* preview card */
+  .preview{height:340px;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(180deg, rgba(0,8,14,0.25), rgba(0,0,0,0.4));display:flex;align-items:center;justify-content:center}
+  .preview .glass{position:absolute;inset:0;background:linear-gradient(90deg, rgba(15,180,255,0.03), transparent);pointer-events:none}
+  .preview-card{position:relative;padding:18px;text-align:center;z-index:2}
+  .pulse-ring{width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 30%, rgba(9,209,255,0.06), transparent);filter:blur(26px);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1}
+  /* sections */
+  section{padding:36px 0;border-top:1px solid rgba(255,255,255,0.02)}
+  .grid{display:grid;gap:18px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:rgba(5,12,20,0.6);padding:18px;border-radius:12px;transition:transform .28s ease, box-shadow .28s;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+  .card:hover{transform:translateY(-10px);box-shadow:0 30px 80px rgba(0,150,255,0.06)}
+  .card .title{font-weight:700;color:var(--cyan-400);margin-bottom:8px}
+  .muted{color:var(--muted);font-size:14px}
+  /* services row */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
+  .service{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:18px;border-radius:12px}
+  .price{font-size:20px;font-weight:800;color:var(--cyan-600);margin-top:8px}
+  /* contact */
+  .contact-row{display:flex;gap:18px;align-items:center}
+  .contact-card{flex:1;background:rgba(5,12,20,0.6);padding:18px;border-radius:12px}
+  .contact-cta{font-weight:700;color:var(--cyan-400);font-size:18px}
+  .mail{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,194,255,0.06), transparent);color:var(--cyan-300)}
+  /* footer */
+  footer{padding:30px 0;color:var(--muted);text-align:center}
+  /* responsive */
+  @media (max-width:980px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-row{flex-direction:column}.preview{height:220px}}
+  @media (max-width:640px){.cards{grid-template-columns:1fr}.logo{width:56px;height:56px}}
+  /* subtle entry animations */
+  .fade{opacity:0;transform:translateY(14px);transition:all .7s cubic-bezier(.2,.9,.2,1)}
+  .in{opacity:1;transform:none}
+</style>
 </head>
 <body>
 
-  <video autoplay muted loop id="bg-video">
-    <source src="https://cdn.pixabay.com/vimeo/257293226/technology-14215.mp4?width=1280&hash=9ad1c891b3b48d65b5af30e4be6d9771f310fc45" type="video/mp4">
-  </video>
+<canvas id="bg-canvas"></canvas>
+<div class="overlay"></div>
 
+<div class="wrap">
   <header>
-    <h1>CodeByDavid</h1>
+    <div class="brand">
+      <div class="logo" id="logo"><img src="logo.png" alt="CodeByDavid logo" onerror="this.style.display='none'"></div>
+      <div>
+        <h1>CodeByDavid</h1>
+        <div class="tag">Futuristic web experiences • HTML • JS • Performance</div>
+      </div>
+    </div>
     <nav>
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <h2>Building the Future with Code</h2>
-    <p>I create modern, professional, and interactive websites that stand out. Let’s build something amazing together.</p>
-    <button class="btn" onclick="document.querySelector('#contact').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
-  </section>
-
-  <section id="about" class="about">
-    <h3 class="section-title">About Me</h3>
-    <p>
-      I'm David Santamaría — a passionate web developer dedicated to creating beautiful, responsive, and efficient web experiences. 
-      My goal is to transform ideas into digital realities through creative design and powerful code. 
-      I specialize in HTML, CSS, JavaScript, and modern frameworks that make websites look futuristic and perform perfectly.
-    </p>
-  </section>
-
-  <section id="projects" class="projects">
-    <h3 class="section-title">Featured Projects</h3>
-    <div class="cards">
-      <div class="card">
-        <h4>TechVision</h4>
-        <p>A sleek modern landing page for a tech startup with animations and futuristic design.</p>
+  <main>
+    <section class="hero">
+      <div class="hero-card fade" id="heroCard">
+        <h2 id="heroTitle">Hi, I'm David — building modern, interactive & intelligent web experiences.</h2>
+        <p class="lead muted">I create high-performance, beautiful sites with smooth micro-interactions — built with HTML, CSS & JS.</p>
+        <div class="cta">
+          <button class="btn" id="hireBtn">Hire — $20 quick-start</button>
+          <button class="btn secondary" id="seeBtn">See projects</button>
+        </div>
+        <div style="margin-top:16px" class="muted">Quick demo • GitHub Pages ready • Fast delivery</div>
       </div>
-      <div class="card">
-        <h4>BlueWave Studio</h4>
-        <p>Portfolio website for a digital agency built with responsive layouts and modern UI.</p>
-      </div>
-      <div class="card">
-        <h4>CodeBot AI</h4>
-        <p>An interactive concept site that combines robotics and artificial intelligence visuals.</p>
-      </div>
-    </div>
-  </section>
 
-  <section id="contact" class="contact">
-    <h3 class="section-title">Get In Touch</h3>
-    <p style="text-align:center;">I’m always open to exciting collaborations and freelance projects.</p>
-    <div class="contact-info">
-      <p>📧 Email me at: <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></p>
-    </div>
-  </section>
+      <div class="preview fade" id="preview">
+        <div class="pulse-ring"></div>
+        <div class="preview-card">
+          <div style="font-weight:800;color:var(--cyan-400);font-size:18px">Interactive Demo</div>
+          <div class="muted" style="margin-top:8px">Hover project cards to preview effects</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="fade">
+      <div class="card">
+        <h3 class="title">About Me</h3>
+        <p class="muted">Freelance web developer focused on clean, fast and delightful web experiences. I craft landing pages, portfolios and small business websites optimized for speed and conversions.</p>
+      </div>
+    </section>
+
+    <section id="projects" class="fade">
+      <h3 class="title">Selected Projects</h3>
+      <div class="cards" style="margin-top:12px">
+        <div class="card project" tabindex="0">
+          <div class="title">Interactive Landing</div>
+          <div class="muted">Animated CTA, performance-first, light JS bundle.</div>
+        </div>
+        <div class="card project" tabindex="0">
+          <div class="title">Portfolio Showcase</div>
+          <div class="muted">Accessible gallery with smooth transitions.</div>
+        </div>
+        <div class="card project" tabindex="0">
+          <div class="title">CodeBot Concept</div>
+          <div class="muted">AI/robotic themed demo with visuals & micro-interactions.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="fade">
+      <h3 class="title">Services & Products</h3>
+      <div class="services">
+        <div class="service">
+          <div class="title">Landing — Starter</div>
+          <div class="price">$20</div>
+          <div class="muted">One-page, GitHub Pages setup, 24h turnaround.</div>
+        </div>
+        <div class="service">
+          <div class="title">Portfolio — Pro</div>
+          <div class="price">$45</div>
+          <div class="muted">Multi-section portfolio, animations & deployment.</div>
+        </div>
+        <div class="service">
+          <div class="title">Custom Site</div>
+          <div class="price">Starting $100</div>
+          <div class="muted">Custom sites for small businesses. Contact for quote.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="fade">
+      <h3 class="title">Contact</h3>
+      <div class="contact-row">
+        <div class="contact-card">
+          <div class="contact-cta">Ready to start?</div>
+          <div class="muted">Quick replies. Deliveries via Fiverr/Upwork preferred.</div>
+          <div style="margin-top:12px"><span class="mail">✉️ <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></span></div>
+        </div>
+        <div class="contact-card">
+          <div class="muted">GitHub</div>
+          <div style="margin-top:8px"><a href="#" id="ghLink">github.com/your-username</a></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    <p>© 2025 CodeByDavid — Designed and Coded with passion.</p>
+    © <span id="year"></span> CodeByDavid — Futuristic web experiences
   </footer>
+</div>
+
+<script>
+/* ---- Canvas background: interactive particle field (futuristic) ---- */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W = canvas.width = innerWidth;
+let H = canvas.height = innerHeight;
+const particles = [];
+const PARTICLE_COUNT = Math.floor((W*H)/70000); // adaptive density
+
+function rand(min,max){return Math.random()*(max-min)+min}
+function resize(){W=canvas.width=innerWidth; H=canvas.height=innerHeight;}
+addEventListener('resize', ()=>{resize(); initParticles();});
+
+function Particle(){
+  this.x = rand(0,W);
+  this.y = rand(0,H);
+  this.vx = rand(-0.25,0.25);
+  this.vy = rand(-0.1,0.1);
+  this.r = rand(0.6,2.2);
+  this.a = rand(0.2,0.9);
+}
+function initParticles(){
+  particles.length=0;
+  const count = Math.max(30, PARTICLE_COUNT);
+  for(let i=0;i<count;i++) particles.push(new Particle());
+}
+function connect(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const p = particles[i], q = particles[j];
+      const dx = p.x-q.x, dy = p.y-q.y;
+      const d = Math.sqrt(dx*dx+dy*dy);
+      if(d<160){
+        const alpha = 0.18*(1 - d/160);
+        ctx.strokeStyle = `rgba(45,200,255,${alpha})`;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+      }
+    }
+  }
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // subtle radial glow
+  const g = ctx.createRadialGradient(W*0.15,H*0.12,0,W*0.6,H*0.6,Math.max(W,H));
+  g.addColorStop(0,'rgba(0,60,90,0.18)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  // particles
+  particles.forEach(p=>{
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0) p.x = W; if(p.x>W) p.x=0;
+    if(p.y<0) p.y = H; if(p.y>H) p.y=0;
+    ctx.fillStyle = `rgba(0,200,255,${p.a})`;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+  });
+  connect();
+  // animated grid lines (subtle)
+  ctx.strokeStyle = 'rgba(0,120,180,0.02)'; ctx.lineWidth = 1;
+  for(let x=0;x<W;x+=120){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  requestAnimationFrame(draw);
+}
+initParticles(); draw();
+
+/* ---- Simple entry animations for elements ---- */
+const fadeEls = document.querySelectorAll('.fade');
+const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:0.12});
+fadeEls.forEach(el=>io.observe(el));
+
+/* ---- small interactive sounds (WebAudio) ---- */
+let audioCtx;
+function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+function playHover(){
+  ensureAudio();
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type='sine'; o.frequency.setValueAtTime(680,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(980,audioCtx.currentTime+0.06);
+  g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.02,audioCtx.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12);
+  o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),140);
+}
+function playClick(){
+  ensureAudio();
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type='triangle'; o.frequency.setValueAtTime(320,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(140,audioCtx.currentTime+0.12);
+  g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.05,audioCtx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.25);
+  o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),260);
+}
+document.querySelectorAll('.btn, .project').forEach(el=>{
+  el.addEventListener('mouseenter', ()=>{ try{ playHover(); }catch(e){} });
+  el.addEventListener('click', ()=>{ try{ playClick(); }catch(e){} });
+});
+
+/* ---- helper actions ---- */
+document.getElementById('year').innerText = new Date().getFullYear();
+document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Hire%20CodeByDavid');
+document.getElementById('seeBtn').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
+</script>
 </body>
 </html>
