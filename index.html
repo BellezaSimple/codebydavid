@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeByDavid</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      color: #fff;
+      overflow-x: hidden;
+      background-color: #000;
+    }
+
+    /* Background Video */
+    video#bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.4);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 60px;
+      position: fixed;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: #00aaff;
+      letter-spacing: 2px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 30px;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #00aaff;
+    }
+
+    section {
+      padding: 120px 60px;
+      min-height: 100vh;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      color: #00aaff;
+      text-shadow: 0 0 20px #00aaff;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #00aaff;
+      }
+      to {
+        text-shadow: 0 0 25px #00ffff;
+      }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      max-width: 700px;
+      color: #cfcfcf;
+    }
+
+    .btn {
+      margin-top: 40px;
+      padding: 14px 30px;
+      background: linear-gradient(90deg, #007bff, #00d4ff);
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      background: linear-gradient(90deg, #00d4ff, #007bff);
+    }
+
+    .about, .projects, .contact {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      padding: 60px;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #00aaff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .projects .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: #0a0a0a;
+      border-radius: 15px;
+      padding: 20px;
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 20px #00aaff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #888;
+      background: rgba(0, 0, 0, 0.8);
+      font-size: 0.9rem;
+    }
+
+    .contact-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .contact-info a {
+      color: #00aaff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .contact-info a:hover {
+      color: #00ffff;
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop id="bg-video">
+    <source src="https://cdn.pixabay.com/vimeo/257293226/technology-14215.mp4?width=1280&hash=9ad1c891b3b48d65b5af30e4be6d9771f310fc45" type="video/mp4">
+  </video>
+
+  <header>
+    <h1>CodeByDavid</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Building the Future with Code</h2>
+    <p>I create modern, professional, and interactive websites that stand out. Let’s build something amazing together.</p>
+    <button class="btn" onclick="document.querySelector('#contact').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
+  </section>
+
+  <section id="about" class="about">
+    <h3 class="section-title">About Me</h3>
+    <p>
+      I'm David Santamaría — a passionate web developer dedicated to creating beautiful, responsive, and efficient web experiences. 
+      My goal is to transform ideas into digital realities through creative design and powerful code. 
+      I specialize in HTML, CSS, JavaScript, and modern frameworks that make websites look futuristic and perform perfectly.
+    </p>
+  </section>
+
+  <section id="projects" class="projects">
+    <h3 class="section-title">Featured Projects</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>TechVision</h4>
+        <p>A sleek modern landing page for a tech startup with animations and futuristic design.</p>
+      </div>
+      <div class="card">
+        <h4>BlueWave Studio</h4>
+        <p>Portfolio website for a digital agency built with responsive layouts and modern UI.</p>
+      </div>
+      <div class="card">
+        <h4>CodeBot AI</h4>
+        <p>An interactive concept site that combines robotics and artificial intelligence visuals.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h3 class="section-title">Get In Touch</h3>
+    <p style="text-align:center;">I’m always open to exciting collaborations and freelance projects.</p>
+    <div class="contact-info">
+      <p>📧 Email me at: <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 CodeByDavid — Designed and Coded with passion.</p>
+  </footer>
+</body>
+</html>
