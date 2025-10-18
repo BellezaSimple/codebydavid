@@ -1,369 +1,362 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>CodeByDavid — Futuristic Web Developer</title>
-<meta name="description" content="CodeByDavid — futuristic, interactive web developer portfolio."/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#020412;
-    --glass: rgba(255,255,255,0.04);
-    --neon-1: #00e7ff;
-    --neon-2: #0088ff;
-    --muted: #9fb7d7;
-    --card: rgba(6,12,20,0.6);
-    --radius:18px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:var(--bg);color:#e6f7ff;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;-webkit-font-smoothing:antialiased}
-  a{color:var(--neon-1);text-decoration:none}
-  /* Background video + canvas */
-  #bg-video{position:fixed;inset:0;width:auto;height:auto;min-width:100%;min-height:100%;object-fit:cover;z-index:0;filter:contrast(1.05) saturate(1.05) brightness(0.75)}
-  #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,6,12,0.15), rgba(0,2,6,0.55));z-index:1;pointer-events:none}
-  /* wrap */
-  .wrap{position:relative;z-index:2;max-width:1250px;margin:0 auto;padding:32px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:8px}
-  .brand{display:flex;align-items:center;gap:14px}
-  .logo{width:86px;height:86px;border-radius:18px;background:linear-gradient(135deg,#001a2a,var(--neon-2));display:flex;align-items:center;justify-content:center;box-shadow:0 18px 60px rgba(0,140,255,0.08), inset 0 -12px 30px rgba(255,255,255,0.02)}
-  .logo img{width:70px;height:70px;object-fit:contain;border-radius:12px}
-  h1{font-size:18px;margin:0;font-weight:700}
-  .tag{color:var(--muted);font-size:13px}
-  nav{display:flex;gap:12px;align-items:center}
-  nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:rgba(230,247,255,0.9)}
-  nav a:hover{background:linear-gradient(90deg, rgba(0,230,255,0.06), rgba(0,110,200,0.02)); color:var(--neon-1)}
-  /* hero layout with bold organic shapes */
-  .hero{position:relative;display:grid;grid-template-columns:1fr 520px;gap:28px;align-items:center;padding:56px 0 36px}
-  .hero-card{position:relative;padding:44px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(8px);box-shadow:0 30px 80px rgba(0,0,0,0.6);overflow:visible}
-  /* organic shape behind hero (SVG blob) */
-  .hero-shape{
-    position:absolute;right:-120px;top:-48px;width:640px;height:640px;filter:blur(28px);opacity:0.9;transform:rotate(-8deg);z-index:0;
-    background: radial-gradient(circle at 30% 30%, rgba(0,200,255,0.12), transparent 20%), linear-gradient(135deg, rgba(0,130,255,0.06), rgba(0,200,255,0.03));
-    border-radius:48% 52% 43% 57% / 52% 38% 62% 48%;
-  }
-  .hero-title{position:relative;font-size:36px;line-height:1.02;margin:0 0 12px;color:transparent;background:linear-gradient(90deg,var(--neon-1),var(--neon-2));-webkit-background-clip:text;font-weight:800;z-index:2}
-  .hero-sub{color:#cfefff;margin-bottom:18px;font-size:16px;z-index:2;position:relative}
-  .typing{color:#dff9ff;font-weight:700;border-right:2px solid rgba(255,255,255,0.06);display:inline-block;padding-right:6px;margin-left:8px}
-  .cta{display:flex;gap:12px;margin-top:20px;z-index:2;position:relative}
-  .btn{padding:14px 22px;border-radius:999px;font-weight:800;border:none;cursor:pointer;transition:transform .18s ease,box-shadow .18s}
-  .btn.primary{background:linear-gradient(90deg,var(--neon-1),var(--neon-2));color:#061223;box-shadow:0 20px 60px rgba(0,170,255,0.12)}
-  .btn.primary:hover{transform:translateY(-6px);box-shadow:0 30px 90px rgba(0,200,255,0.18)}
-  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-  .hero-note{margin-top:14px;color:var(--muted);font-size:13px;z-index:2}
-  /* preview panel — diagonal, glass, and floating */
-  .preview{
-    position:relative;height:420px;border-radius:28px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(4,10,18,0.38), rgba(2,4,8,0.6));box-shadow:0 30px 80px rgba(0,0,0,0.7);
-    transform:skewX(-6deg) translateZ(0);
-  }
-  .preview-inner{transform:skewX(6deg);padding:20px;text-align:center;z-index:2}
-  .preview-card{position:relative;display:inline-block;padding:26px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 30px 80px rgba(0,0,0,0.6)}
-  .preview-card h4{color:var(--neon-1);margin:0 0 6px}
-  .preview-card p{color:var(--muted);font-size:13px;margin:0}
-  /* sections redesigned with curved containers and cutouts */
-  section{padding:44px 0;border-top:1px solid rgba(255,255,255,0.02)}
-  .about-wrap{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:start}
-  .card-fluid{position:relative;padding:28px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter: blur(6px);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
-  .about-text{font-size:15px;color:#dbeffb;line-height:1.6}
-  .chips{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
-  .chip{padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(0,200,255,0.06), transparent);color:var(--neon-1);font-weight:700}
-  /* projects — use soft curved gallery tiles and layered shapes */
-  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .tile{
-    position:relative;border-radius:18px;padding:14px;background:linear-gradient(180deg, rgba(10,16,24,0.6), rgba(4,8,12,0.6));overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,0.65);transition:transform .28s ease;
-  }
-  .tile:before{
-    content:'';position:absolute;right:-40px;top:-60px;width:220px;height:220px;border-radius:40% 60% 50% 50%/60% 40% 60% 40%;background:linear-gradient(90deg, rgba(0,180,255,0.06), rgba(0,120,220,0.02));transform:rotate(15deg);filter:blur(20px)
-  }
-  .tile:hover{transform:translateY(-12px);box-shadow:0 40px 120px rgba(0,140,255,0.08)}
-  .mockup{
-    height:180px;border-radius:12px;background:linear-gradient(135deg,#00121a,#061726);display:flex;align-items:center;justify-content:center;color:rgba(220,240,255,0.06);font-weight:900;font-size:20px;position:relative;overflow:hidden;box-shadow:inset 0 -12px 40px rgba(255,255,255,0.02)
-  }
-  .meta{margin-top:12px}
-  .meta .t{font-weight:800;color:var(--neon-1)}
-  .meta .d{color:var(--muted);font-size:13px}
-  /* services — asymmetrical cards with floating ribbon price */
-  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .svc{position:relative;padding:20px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:visible}
-  .ribbon{position:absolute;left:-36px;top:18px;padding:10px 46px;background:linear-gradient(90deg,var(--neon-1),var(--neon-2));color:#021226;font-weight:900;border-radius:8px;transform:rotate(-18deg);box-shadow:0 18px 60px rgba(0,170,255,0.12)}
-  .svc .svc-title{font-weight:800;margin-bottom:8px}
-  .svc .svc-desc{color:var(--muted);font-size:13px}
-  /* contact */
-  .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:22px}
-  .contact-cta{font-weight:800;color:var(--neon-1);font-size:18px}
-  .mail{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,194,255,0.06), transparent);color:var(--neon-1)}
-  /* footer */
-  footer{padding:30px 0;color:var(--muted);text-align:center}
-  /* responsive */
-  @media (max-width:1100px){.hero{grid-template-columns:1fr}.about-wrap{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}}
-  @media (max-width:640px){.logo{width:60px;height:60px;border-radius:12px}.hero{padding-top:36px}}
-  /* animations */
-  .fade{opacity:0;transform:translateY(14px);transition:all .8s cubic-bezier(.2,.9,.2,1)}
-  .in{opacity:1;transform:none}
-  .btn, .tile, .svc{will-change:transform,box-shadow}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David Santamaría — Web Developer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #050510;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    #bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -2;
+      object-fit: cover;
+      opacity: 0.25;
+    }
+
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: rgba(5, 5, 20, 0.6);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .logo {
+      height: 50px;
+      border-radius: 10px;
+    }
+
+    .navbar ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .navbar a {
+      color: #9fcaff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #00bfff;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      background: radial-gradient(circle at 50% 50%, #00122a, transparent 60%);
+    }
+
+    .hero-content {
+      background: rgba(10, 25, 50, 0.4);
+      padding: 3rem;
+      border-radius: 40px;
+      backdrop-filter: blur(10px);
+      border: 1px solid #00aaff40;
+      box-shadow: 0 0 40px #008cff30;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero-content h1 {
+      font-size: 2.8rem;
+      background: linear-gradient(90deg, #00d0ff, #0077ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00d0ff; }
+      to { text-shadow: 0 0 30px #0077ff; }
+    }
+
+    .hero-content p {
+      margin-top: 1rem;
+      color: #a8caff;
+      max-width: 600px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.9rem 2.5rem;
+      background: linear-gradient(90deg, #0077ff, #00d0ff);
+      border-radius: 30px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00bfff;
+    }
+
+    section {
+      padding: 6rem 10%;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      color: #00bfff;
+      margin-bottom: 2rem;
+    }
+
+    .about p {
+      color: #b5cfff;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+      background: rgba(10, 25, 50, 0.3);
+      padding: 2rem;
+      border-radius: 20px;
+      border: 1px solid #00aaff30;
+    }
+
+    .projects .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: linear-gradient(145deg, rgba(0, 50, 100, 0.6), rgba(0, 0, 30, 0.8));
+      border: 1px solid #00aaff40;
+      padding: 2.5rem;
+      border-radius: 25px;
+      position: relative;
+      transition: 0.4s;
+      overflow: hidden;
+      transform: perspective(800px) rotateY(0deg);
+    }
+
+    .project-card:hover {
+      transform: perspective(800px) rotateY(8deg);
+      box-shadow: 0 0 25px #008cff60;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .pricing-card {
+      background: rgba(15, 25, 50, 0.7);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #00aaff40;
+      transition: 0.3s;
+    }
+
+    .pricing-card:hover {
+      box-shadow: 0 0 25px #008cff60;
+      transform: scale(1.05);
+    }
+
+    .price {
+      font-size: 2rem;
+      color: #00bfff;
+      margin: 1rem 0;
+    }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      background: rgba(5, 5, 15, 0.7);
+      border-top: 1px solid #00aaff40;
+      font-size: 0.9rem;
+      color: #9fcaff;
+    }
+  </style>
 </head>
 <body>
+  <video autoplay muted loop id="bg-video">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+  <canvas id="particles"></canvas>
 
-<!-- video background (remote) - if blocked, canvas still runs -->
-<video id="bg-video" autoplay muted loop playsinline>
-  <!-- sample futuristic background (replace if you want a different video) -->
-  <source src="https://cdn.pixabay.com/vimeo/257293226/technology-14215.mp4?width=1280&hash=9ad1c891b3b48d65b5af30e4be6d9771f310fc45" type="video/mp4">
-</video>
-
-<canvas id="bg-canvas" aria-hidden="true"></canvas>
-<div class="overlay" aria-hidden="true"></div>
-
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="logo" id="logo"><img src="logo.png" alt="CodeByDavid logo" onerror="this.style.display='none'"></div>
-      <div>
-        <h1>CodeByDavid</h1>
-        <div class="tag">Futuristic web experiences • HTML • JS • Performance</div>
-      </div>
-    </div>
-
+  <header class="navbar">
+    <img src="freepik__crea-un-logo-profesional-y-moderno-para-un-freelan__2970.png" alt="Logo" class="logo" />
     <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
   </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero" id="home" aria-label="Hero">
-      <div class="hero-card fade" id="heroCard">
-        <div class="hero-shape" aria-hidden="true"></div>
-        <h2 class="hero-title">Designing the Web of <span style="background:linear-gradient(90deg,var(--neon-1),var(--neon-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Tomorrow</span> — Fast, Elegant & Intelligent.</h2>
-        <p class="hero-sub">At <strong>CodeByDavid</strong>, we craft next-generation digital experiences — optimized, futuristic, and ready for scale.
-          <span class="typing" id="typing"></span>
-        </p>
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Building the Future of the Web</h1>
+      <p>Innovative, fast, and intelligent websites — designed to impress, built to perform.</p>
+      <a href="#contact" class="btn">Let's Work Together</a>
+    </div>
+  </section>
 
-        <div class="cta">
-          <button class="btn primary" id="hireBtn">Quick Start — $12</button>
-          <button class="btn ghost" id="seeBtn">Explore Projects</button>
-        </div>
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <p>I'm David — a creative and professional web developer dedicated to building high-performance, elegant, and innovative digital platforms. My work blends cutting-edge technology with modern design to craft experiences that inspire and deliver results.</p>
+  </section>
 
-        <div class="hero-note">Delivery support, mobile-ready, and performance optimization included.</div>
+  <section id="projects" class="projects">
+    <h2>Selected Projects</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <h3>Smart Portfolio</h3>
+        <p>Interactive web experiences combining motion, intelligence, and elegance.</p>
       </div>
-
-      <div class="preview fade" aria-hidden="true">
-        <div class="preview-inner">
-          <div class="preview-card">
-            <h4>Interactive Demo</h4>
-            <p class="muted">High-fidelity mockups showing real-world site examples below.</p>
-          </div>
-        </div>
+      <div class="project-card">
+        <h3>Corporate Landing</h3>
+        <p>Clean and responsive pages that balance aesthetics with performance.</p>
       </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="fade" aria-label="About">
-      <div class="about-wrap">
-        <div class="card-fluid">
-          <h3 style="margin-top:0">About Me</h3>
-          <p class="about-text">I'm David — a professional front-end developer focused on building beautiful, fast, and conversion-oriented websites. I blend meticulous front-end craftsmanship (HTML/CSS/JS) with performance engineering and product thinking to deliver sites that load quickly, look premium and convert users into customers.</p>
-          <div class="chips">
-            <div class="chip">UI & Microinteractions</div>
-            <div class="chip">Mobile-first & Performance</div>
-            <div class="chip">Deployment & Support</div>
-          </div>
-        </div>
-
-        <div class="card-fluid" aria-hidden="true">
-          <h4 style="margin-top:0">Why choose this approach?</h4>
-          <p class="muted">I focus on measurable outcomes: faster load times, clearer UX, and maintainable code—so your site works today and grows tomorrow.</p>
-          <div style="margin-top:18px"><button class="btn primary" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See packages</button></div>
-        </div>
+      <div class="project-card">
+        <h3>Agency Interface</h3>
+        <p>Dynamic, futuristic interfaces with captivating design and user flow.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="fade" aria-label="Projects">
-      <h3 class="title">Selected Projects</h3>
-      <div class="gallery" style="margin-top:14px">
-        <div class="tile">
-          <div class="mockup"><div class="screen">NOVA AGENCY</div></div>
-          <div class="meta"><div class="t">Nova Agency — Landing</div><div class="d muted">Animated hero, CTA optimization, conversion-first layout.</div></div>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button class="btn primary demo-btn">Live preview</button>
-            <button class="btn ghost">Details</button>
-          </div>
-        </div>
-
-        <div class="tile">
-          <div class="mockup"><div class="screen">ZENAPP</div></div>
-          <div class="meta"><div class="t">ZenApp — Product</div><div class="d muted">Minimal product site with purchase funnel and mobile UX.</div></div>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button class="btn primary demo-btn">Live preview</button>
-            <button class="btn ghost">Details</button>
-          </div>
-        </div>
-
-        <div class="tile">
-          <div class="mockup"><div class="screen">ATLAS</div></div>
-          <div class="meta"><div class="t">Atlas — E-commerce</div><div class="d muted">Fast product grid, quick filtering, checkout-ready structure.</div></div>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button class="btn primary demo-btn">Live preview</button>
-            <button class="btn ghost">Details</button>
-          </div>
-        </div>
+  <section id="pricing" class="pricing">
+    <h2>Pricing Plans</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <p class="price">$25</p>
+        <ul>
+          <li>1-Page Modern Website</li>
+          <li>Responsive Design</li>
+          <li>Fast Delivery</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="fade" aria-label="Services">
-      <h3 class="title">Services & Packages</h3>
-      <div class="services" style="margin-top:12px">
-        <div class="svc">
-          <div class="ribbon">$12</div>
-          <div class="svc-title">Landing Page — Quick Start</div>
-          <div class="svc-desc">Single-page responsive landing with deployed link and 24–48h turnaround.</div>
-          <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Landing Page — Quick Start','$12')">Get it</button></div>
-        </div>
-
-        <div class="svc">
-          <div class="ribbon">$30</div>
-          <div class="svc-title">Portfolio — Professional</div>
-          <div class="svc-desc">Multi-section portfolio with animations, mobile support and deployment guidance.</div>
-          <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Portfolio — Professional','$30')">Get it</button></div>
-        </div>
-
-        <div class="svc">
-          <div class="ribbon">$60</div>
-          <div class="svc-title">Custom Site — Starter</div>
-          <div class="svc-desc">Custom small-business website — responsive, accessible and production-ready. Contact for scope.</div>
-          <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Custom Site — Starter','$60')">Request quote</button></div>
-        </div>
+      <div class="pricing-card">
+        <h3>Professional</h3>
+        <p class="price">$45</p>
+        <ul>
+          <li>3-5 Pages Dynamic Website</li>
+          <li>Animations & Particles</li>
+          <li>SEO Optimization</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="fade" aria-label="Contact">
-      <h3 class="title">Contact</h3>
-      <div class="contact-grid" style="margin-top:12px">
-        <div class="contact-cta card-fluid">
-          <div class="contact-cta">Ready to start your project?</div>
-          <p class="muted" style="margin-top:8px">Fast replies and clear delivery timelines. Include a short description and your deadline for faster response.</p>
-          <div style="margin-top:12px"><span class="mail">✉️ <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></span></div>
-        </div>
-
-        <div class="card-fluid" aria-hidden="true">
-          <div class="muted">Need help picking a package?</div>
-          <div style="margin-top:12px"><button class="btn primary" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See packages</button></div>
-        </div>
+      <div class="pricing-card">
+        <h3>Premium</h3>
+        <p class="price">$70</p>
+        <ul>
+          <li>Full-Scale Custom Website</li>
+          <li>Interactive Features</li>
+          <li>Lifetime Support</li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <section id="contact" class="contact">
+    <h2>Contact Me</h2>
+    <p>If you’re ready to bring your next project to life, reach out below:</p>
+    <a href="mailto:santamariadavid0724@gmail.com" class="btn">Send Email</a>
+  </section>
 
-  <footer>© <span id="year"></span> CodeByDavid — Futuristic web experiences</footer>
-</div>
+  <footer>
+    <p>© 2025 David Santamaría — All rights reserved.</p>
+  </footer>
 
-<script>
-/* ---------- Adaptive particle + connection canvas (behind video) ---------- */
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = innerWidth;
-let H = canvas.height = innerHeight;
-let particles = [];
-const DENSITY = Math.max(40, Math.floor((W*H)/90000));
-function rand(min,max){return Math.random()*(max-min)+min;}
-function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; init(); }
-addEventListener('resize', ()=>{ resize(); });
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-function Particle(){
-  this.x = rand(0,W);
-  this.y = rand(0,H);
-  this.vx = rand(-0.35,0.35);
-  this.vy = rand(-0.12,0.12);
-  this.r = rand(0.7,2.6);
-  this.a = rand(0.12,0.9);
-}
-function init(){ particles = []; for(let i=0;i<DENSITY;i++) particles.push(new Particle()); }
-function connect(){
-  for(let i=0;i<particles.length;i++){
-    for(let j=i+1;j<particles.length;j++){
-      const p = particles[i], q = particles[j];
-      const dx = p.x-q.x, dy = p.y-q.y;
-      const d = Math.sqrt(dx*dx+dy*dy);
-      if(d<140){
-        const alpha = 0.18*(1 - d/140);
-        ctx.strokeStyle = `rgba(0,200,255,${alpha})`;
-        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+    let particles = [];
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2;
+        this.speedX = Math.random() * 0.6 - 0.3;
+        this.speedY = Math.random() * 0.6 - 0.3;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+      draw() {
+        ctx.fillStyle = '#00bfff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
-  }
-}
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  // soft glow center
-  const g = ctx.createRadialGradient(W*0.12,H*0.04,0,W*0.8,H*0.8,Math.max(W,H));
-  g.addColorStop(0,'rgba(0,60,90,0.12)');
-  g.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
 
-  particles.forEach(p=>{
-    p.x += p.vx; p.y += p.vy;
-    if(p.x<0) p.x = W; if(p.x>W) p.x=0;
-    if(p.y<0) p.y = H; if(p.y>H) p.y=0;
-    ctx.fillStyle = `rgba(0,200,255,${p.a})`;
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-  });
-  connect();
-  // vertical depth lines
-  ctx.strokeStyle = 'rgba(0,120,180,0.02)'; ctx.lineWidth = 1;
-  for(let x=0;x<W;x+=160){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-  requestAnimationFrame(draw);
-}
-init(); draw();
+    function init() {
+      for (let i = 0; i < 80; i++) {
+        particles.push(new Particle());
+      }
+    }
 
-/* ---------- reveal animations ---------- */
-const fadeEls = document.querySelectorAll('.fade');
-const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:0.12});
-fadeEls.forEach(el=>io.observe(el));
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of particles) {
+        p.update();
+        p.draw();
+      }
+      requestAnimationFrame(animate);
+    }
 
-/* ---------- typing effect ---------- */
-const typingEl = document.getElementById('typing');
-const phrases = ['performance-first architecture.','pixel-perfect UI & microinteractions.','fast delivery and clean code.','scalable, maintainable websites.'];
-let tIndex = 0, charIndex = 0, forward = true;
-function typeLoop(){
-  const phrase = phrases[tIndex];
-  if(forward){ charIndex++; if(charIndex>phrase.length){ forward=false; setTimeout(typeLoop,1200); return; } }
-  else { charIndex--; if(charIndex<0){ forward=true; tIndex=(tIndex+1)%phrases.length; setTimeout(typeLoop,600); return; } }
-  typingEl.textContent = phrase.slice(0,charIndex);
-  setTimeout(typeLoop, forward ? 50 : 30);
-}
-setTimeout(typeLoop,900);
+    init();
+    animate();
 
-/* ---------- micro-sounds ---------- */
-let audioCtx;
-function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
-function playHover(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sine'; o.frequency.setValueAtTime(720,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(980,audioCtx.currentTime+0.06); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.02,audioCtx.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),140);}catch(e){} }
-function playClick(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='triangle'; o.frequency.setValueAtTime(320,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(140,audioCtx.currentTime+0.12); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.05,audioCtx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.25); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),260);}catch(e){} }
-document.querySelectorAll('.btn, .demo-btn').forEach(el=>{ el.addEventListener('mouseenter', ()=>playHover()); el.addEventListener('click', ()=>playClick()); });
-
-/* ---------- helpers ---------- */
-document.getElementById('year').innerText = new Date().getFullYear();
-document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Quick%20Start%20-%20Landing%20Page');
-document.getElementById('seeBtn').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
-
-function openDemo(){ alert('Preview mode — real demos will be linked here.'); }
-function contactWithProduct(product,price){
-  const subject = encodeURIComponent('Order: '+product+' — '+price);
-  const body = encodeURIComponent('Hi, I would like to order '+product+". Please share next steps and delivery time.\n\nThanks.");
-  location.href = `mailto:santamariadavid0724@gmail.com?subject=${subject}&body=${body}`;
-}
-
-/* ---------- show video if allowed, otherwise canvas remains visible ---------- */
-const bgVideo = document.getElementById('bg-video');
-bgVideo.addEventListener('error', ()=>{ bgVideo.style.display='none'; });
-bgVideo.addEventListener('play', ()=>{ /* keep canvas visible too for layered effect */ });
-
-</script>
+    window.addEventListener('resize', () => {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    });
+  </script>
 </body>
 </html>
