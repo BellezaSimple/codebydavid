@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodeByDavid — Futuristic Web Experiences</title>
+  <title>CodeByDavid — Professional Websites for Modern Businesses</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
@@ -20,7 +20,6 @@
       overflow-x: hidden;
     }
 
-    /* NAVBAR */
     nav {
       position: fixed;
       width: 100%;
@@ -37,9 +36,18 @@
     }
 
     nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-weight: 800;
       font-size: 1.5rem;
       color: #00ffff;
+    }
+
+    nav .logo img {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
     }
 
     nav ul {
@@ -62,7 +70,6 @@
       color: #00ffff;
     }
 
-    /* HERO SECTION */
     section#hero {
       position: relative;
       height: 100vh;
@@ -164,7 +171,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ABOUT */
     section#about {
       padding: 7rem 3rem;
       text-align: center;
@@ -185,7 +191,6 @@
       line-height: 1.7;
     }
 
-    /* PROJECTS */
     section#projects {
       padding: 7rem 3rem;
       text-align: center;
@@ -228,7 +233,6 @@
       color: #00ffff;
     }
 
-    /* PRICING */
     section#pricing {
       padding: 7rem 3rem;
       text-align: center;
@@ -296,7 +300,6 @@
       filter: brightness(1.2);
     }
 
-    /* CONTACT */
     section#contact {
       padding: 7rem 3rem;
       text-align: center;
@@ -358,7 +361,7 @@
 
 <body>
   <nav>
-    <div class="logo">CodeByDavid</div>
+    <div class="logo"><img src="logo.png" alt="Logo">CodeByDavid</div>
     <ul>
       <li><a href="#hero">Home</a></li>
       <li><a href="#about">About</a></li>
@@ -373,16 +376,16 @@
     <div class="hero-content">
       <div class="glass-orb">
         <h1>
-          Building the <span>Next Generation</span> of Web Experiences
+          We Build <span>Professional Websites</span> for Your Business
         </h1>
         <p>
-          Welcome to <strong>CodeByDavid</strong> — where technology meets art.  
-          I design and develop modern, high-performance websites with futuristic visuals, clean architecture, and intelligent interaction.  
-          Let’s turn your digital idea into something extraordinary.
+          At <strong>CodeByDavid</strong>, I create modern, fast, and stunning websites  
+          designed to help your brand grow and stand out online.  
+          Whether you need a portfolio, e-commerce, or corporate site — I build it with a futuristic touch.
         </p>
         <div class="hero-buttons">
-          <a href="#projects" class="btn primary">Explore My Work</a>
-          <a href="#pricing" class="btn secondary">See Pricing</a>
+          <a href="#projects" class="btn primary">See My Work</a>
+          <a href="#contact" class="btn secondary">Get Your Website</a>
         </div>
       </div>
     </div>
@@ -391,18 +394,18 @@
   <section id="about">
     <h2>About Me</h2>
     <p>
-      I'm David — a creative web developer focused on building fast, beautiful, and smart websites.  
-      Every line of code I write is designed to look great, load fast, and deliver seamless user experiences.  
-      My work combines technology, innovation, and design to create digital experiences that truly stand out.
+      I'm David — a web creator passionate about helping businesses build a strong online presence.  
+      I focus on crafting elegant, high-performance, and visually appealing websites that reflect your brand identity.  
+      From concept to launch, I deliver web experiences that attract, engage, and convert visitors into clients.
     </p>
   </section>
 
   <section id="projects">
-    <h2>Selected Projects</h2>
+    <h2>My Work</h2>
     <div class="project-grid">
-      <div class="project"><img src="https://via.placeholder.com/400x200" alt=""><h3>Corporate Web System</h3></div>
-      <div class="project"><img src="https://via.placeholder.com/400x200" alt=""><h3>Creative Portfolio</h3></div>
-      <div class="project"><img src="https://via.placeholder.com/400x200" alt=""><h3>E-Commerce Store</h3></div>
+      <div class="project"><img src="https://i.ibb.co/vhPwL2f/website1.jpg" alt=""><h3>Modern Business Site</h3></div>
+      <div class="project"><img src="https://i.ibb.co/1Qmpzsn/website2.jpg" alt=""><h3>Creative Portfolio</h3></div>
+      <div class="project"><img src="https://i.ibb.co/vhgRrGs/website3.jpg" alt=""><h3>Dynamic E-Commerce</h3></div>
     </div>
   </section>
 
@@ -411,28 +414,28 @@
     <div class="pricing-grid">
       <div class="price-card">
         <h3>Starter</h3>
-        <p>Perfect for landing pages and small business websites.</p>
-        <div class="price">$12</div>
-        <a href="#contact">Get Started</a>
+        <p>Ideal for small businesses or personal websites.</p>
+        <div class="price">$10</div>
+        <a href="#contact">Start Now</a>
       </div>
       <div class="price-card">
         <h3>Professional</h3>
-        <p>Includes full design customization, animations, and optimization.</p>
-        <div class="price">$20</div>
-        <a href="#contact">Get Started</a>
+        <p>Includes responsive design, animations, and SEO setup.</p>
+        <div class="price">$18</div>
+        <a href="#contact">Order Website</a>
       </div>
       <div class="price-card">
         <h3>Premium</h3>
-        <p>Advanced systems, backend integration, and priority support.</p>
-        <div class="price">$30</div>
-        <a href="#contact">Get Started</a>
+        <p>Full website package with advanced features & priority support.</p>
+        <div class="price">$25</div>
+        <a href="#contact">Get Premium</a>
       </div>
     </div>
   </section>
 
   <section id="contact">
     <h2>Contact Me</h2>
-    <p>Have a project in mind? Let’s bring it to life together.</p>
+    <p>Ready to bring your business online? Let’s make it happen.</p>
     <form>
       <input type="text" placeholder="Your Name" required />
       <input type="email" placeholder="Your Email" required />
@@ -442,7 +445,7 @@
   </section>
 
   <footer>
-    © 2025 CodeByDavid. All rights reserved.
+    © 2025 CodeByDavid — Professional Web Creation Services.
   </footer>
 
   <script>
