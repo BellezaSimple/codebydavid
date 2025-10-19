@@ -1,423 +1,380 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CodeByDavid — Futuristic Web Experiences</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<meta name="description" content="CodeByDavid — professional, futuristic websites for businesses.">
-<style>
-  :root{
-    --bg:#03050a;
-    --neon1:#00e7ff;
-    --neon2:#0077ff;
-    --muted:#9fb7d7;
-    --glass: rgba(255,255,255,0.03);
-    --accent-grad: linear-gradient(90deg,var(--neon1),var(--neon2));
-    --maxw:1180px;
-    --card-shadow: 0 30px 90px rgba(0,120,200,0.06);
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeByDavid — Futuristic Web Developer</title>
 
-  /* Reset + base */
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:var(--bg);color:#eaf8ff;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; -webkit-font-smoothing:antialiased;}
-  a{color:var(--neon1);text-decoration:none}
-  img{display:block;max-width:100%;height:auto}
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a2e0e6d4b9.js" crossorigin="anonymous"></script>
 
-  /* Background layers */
-  #bg-video{position:fixed;inset:0;width:auto;height:auto;min-width:100%;min-height:100%;object-fit:cover;z-index:0;filter:brightness(.6) contrast(1.02)}
-  canvas#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,6,12,0.14), rgba(0,4,8,0.6));z-index:1;pointer-events:none}
+  <!-- GSAP & Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  /* Container */
-  .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:28px}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* Header */
-  header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:8px 0}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo { width:76px;height:76px;border-radius:14px;background:linear-gradient(135deg,#00202b,var(--neon2));display:flex;align-items:center;justify-content:center;box-shadow:0 18px 60px rgba(0,120,200,0.08); animation:logoPop .9s cubic-bezier(.2,.9,.2,1) }
-  .logo img{width:62px;height:62px;object-fit:contain;border-radius:8px;filter:drop-shadow(0 8px 24px rgba(0,150,255,0.12))}
-  @keyframes logoPop{from{opacity:0;transform:translateY(-10px) scale(.95)}to{opacity:1;transform:none}}
-  .brand h1{margin:0;font-size:18px;font-weight:800;color:var(--neon1);letter-spacing:0.6px}
-  .tag{color:var(--muted);font-size:13px}
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #020611;
+      color: #e0f0ff;
+      overflow-x: hidden;
+    }
 
-  nav{display:flex;gap:12px;align-items:center}
-  nav a{padding:8px 12px;border-radius:10px;font-weight:700;color:rgba(230,247,255,0.95)}
-  nav a:hover{background:linear-gradient(90deg, rgba(0,230,255,0.05), rgba(0,110,200,0.02));color:var(--neon1)}
+    header {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-  /* Hero - left heavy layout with decorative SVGs behind content (each shape different) */
-  .hero{position:relative;display:grid;grid-template-columns:1fr 520px;gap:28px;align-items:center;padding:56px 0 24px;min-height:72vh}
-  /* decorative SVG shapes positioned behind content but sized & blurred so they never cut text */
-  .hero-shape-a{position:absolute;left:-70px;top:-120px;z-index:0;filter:blur(36px);opacity:.95;transform:rotate(-6deg)}
-  .hero-shape-b{position:absolute;right:-120px;top:-40px;z-index:0;filter:blur(34px);opacity:.9;transform:rotate(-12deg)}
-  .hero-card{
-    position:relative;z-index:2;padding:48px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(8px);box-shadow:var(--card-shadow); overflow:visible;
-    clip-path: polygon(0% 0%,100% 0%,100% 84%,80% 100%,12% 96%,0% 46%);
-  }
-  .hero-title{font-size:40px;line-height:1.02;margin:0 0 12px;font-weight:900;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .hero-sub{color:#cfefff;margin-bottom:18px;font-size:16px}
-  .typing{color:#dff9ff;font-weight:800;border-right:3px solid rgba(255,255,255,0.06);display:inline-block;padding-right:6px;margin-left:8px}
+    /* Particles background */
+    canvas#bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
 
-  .hero-cta{display:flex;gap:12px;margin-top:18px}
-  .btn{padding:12px 20px;border-radius:999px;font-weight:800;border:none;cursor:pointer;transition:all .22s ease}
-  .btn.primary{background:var(--accent-grad);color:#001426;box-shadow:0 18px 60px rgba(0,140,255,0.12)}
-  .btn.primary:hover{transform:translateY(-6px);box-shadow:0 36px 110px rgba(0,200,255,0.18)}
-  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    /* Logo animation */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 40px;
+      width: 140px;
+      animation: logoGlow 3s ease-in-out infinite alternate;
+      z-index: 2;
+    }
 
-  /* Right-side hero panel: unique curved mesh + translucent panel */
-  .hero-panel{position:relative;z-index:2;padding:22px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(8px);box-shadow:var(--card-shadow);height:320px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-  .panel-deco{position:absolute;inset:auto;right:-30px;top:-40px;width:420px;height:420px;filter:blur(28px);opacity:0.9;transform:rotate(6deg)}
-  .panel-text{color:#dff5ff;font-weight:700}
+    @keyframes logoGlow {
+      from {
+        filter: drop-shadow(0 0 2px #00aaff) drop-shadow(0 0 5px #0099ff);
+      }
+      to {
+        filter: drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 40px #00aaff);
+      }
+    }
 
-  /* Section base styling */
-  section{padding:64px 0;border-top:1px solid rgba(255,255,255,0.02)}
-  .section-shell{position:relative;padding:26px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);backdrop-filter:blur(6px);box-shadow:var(--card-shadow);overflow:visible}
+    /* Hero section */
+    .hero {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
 
-  /* ABOUT with left image blob + right content card */
-  .about-grid{display:grid;grid-template-columns:520px 1fr;gap:20px;align-items:center}
-  .about-visual{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#021223 0%, #00121a 100%);min-height:340px;box-shadow:inset 0 -10px 40px rgba(255,255,255,0.02)}
-  .about-blob{position:absolute;left:-60px;bottom:-40px;width:460px;height:460px;filter:blur(40px);opacity:.9;transform:rotate(-8deg);z-index:0}
-  .about-text{padding:10px 6px;color:#dff4ff;line-height:1.6}
+    .hero h1 {
+      font-size: 3.5em;
+      font-weight: 800;
+      background: linear-gradient(90deg, #00aaff, #00ffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: flicker 2.5s infinite alternate;
+    }
 
-  /* PROJECTS: grid of tiles, each tile has different decorative SVG overlay (unique shapes) */
-  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:18px}
-  .proj-tile{position:relative;padding:14px;border-radius:14px;background:linear-gradient(180deg, rgba(6,8,12,0.6), rgba(2,6,10,0.6));box-shadow:0 20px 70px rgba(0,0,0,0.6);overflow:hidden;transition:transform .28s ease}
-  .proj-tile:hover{transform:translateY(-12px);box-shadow:0 40px 140px rgba(0,140,255,0.08)}
-  .proj-thumb{height:180px;border-radius:10px;overflow:hidden;background:#071122}
-  .proj-meta{margin-top:12px}
-  .proj-title{color:var(--neon1);font-weight:800}
-  .proj-desc{color:var(--muted);font-size:13px;margin-top:6px}
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.6;
+      }
+    }
 
-  /* SERVICES: three cards but each with a distinct cassette/angled background */
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
-  .svc-card{position:relative;padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);box-shadow:var(--card-shadow);overflow:visible;transition:transform .28s}
-  .svc-card:hover{transform:translateY(-8px)}
-  .ribbon{position:absolute;left:-32px;top:12px;padding:10px 40px;background:var(--accent-grad);color:#021426;font-weight:900;border-radius:8px;transform:rotate(-12deg);box-shadow:0 18px 60px rgba(0,170,255,0.12)}
+    .hero p {
+      font-size: 1.2em;
+      margin-top: 15px;
+      color: #99ccff;
+    }
 
-  /* CONTACT */
-  .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:22px}
-  .contact-card{padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);box-shadow:var(--card-shadow);}
+    /* Sections */
+    section {
+      padding: 120px 80px;
+      position: relative;
+      overflow: hidden;
+    }
 
-  /* Footer */
-  footer{padding:36px 0;text-align:center;color:var(--muted)}
+    section::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle at center, rgba(0, 200, 255, 0.05) 0%, transparent 70%);
+      transform: rotate(15deg);
+      z-index: 0;
+    }
 
-  /* Buttons small */
-  .small-btn{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:700}
+    section h2 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 50px;
+      color: #00eaff;
+      text-shadow: 0 0 15px #00aaff;
+      z-index: 1;
+      position: relative;
+    }
 
-  /* responsive */
-  @media (max-width:1100px){
-    .hero{grid-template-columns:1fr}
-    .about-grid{grid-template-columns:1fr}
-    .projects-grid{grid-template-columns:1fr 1fr}
-    .svc-grid{grid-template-columns:1fr}
-    .contact-grid{grid-template-columns:1fr}
-  }
-  @media (max-width:700px){
-    .projects-grid{grid-template-columns:1fr}
-    .hero-title{font-size:30px}
-    .logo{width:60px;height:60px}.logo img{width:48px;height:48px}
-  }
+    /* About */
+    .about {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 40px;
+      z-index: 1;
+    }
 
-  /* reveal */
-  .fade{opacity:0;transform:translateY(16px);transition:all .7s cubic-bezier(.2,.9,.2,1)}
-  .in{opacity:1;transform:none}
-</style>
+    .about .text {
+      max-width: 600px;
+    }
+
+    .about .text p {
+      font-size: 1.1em;
+      line-height: 1.8;
+      color: #b0e0ff;
+    }
+
+    /* Projects */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      z-index: 1;
+    }
+
+    .project {
+      background: rgba(0, 20, 40, 0.8);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .project:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+    }
+
+    .project img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .project h3 {
+      color: #00d5ff;
+    }
+
+    /* Pricing */
+    .pricing {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      z-index: 1;
+    }
+
+    .plan {
+      background: rgba(0, 20, 40, 0.9);
+      padding: 40px;
+      border-radius: 20px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .plan:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
+    }
+
+    .plan h3 {
+      font-size: 1.8em;
+      color: #00eaff;
+      margin-bottom: 15px;
+    }
+
+    .plan p {
+      font-size: 1em;
+      color: #b0e0ff;
+      margin-bottom: 20px;
+    }
+
+    .plan .price {
+      font-size: 2.5em;
+      color: #00ffff;
+      margin-bottom: 25px;
+    }
+
+    /* Contact */
+    .contact {
+      text-align: center;
+      z-index: 1;
+    }
+
+    .contact p {
+      font-size: 1.2em;
+      color: #b0e0ff;
+    }
+
+    .contact a {
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.3s;
+    }
+
+    .contact a:hover {
+      color: #00aaff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      background: rgba(0, 10, 20, 0.8);
+      color: #0077aa;
+      font-size: 0.9em;
+    }
+  </style>
 </head>
+
 <body>
-  <!-- background: optional video (fallback to canvas if blocked) -->
-  <video id="bg-video" autoplay muted loop playsinline>
-    <source src="https://cdn.pixabay.com/vimeo/257293226/technology-14215.mp4?width=1280&hash=9ad1c891b3b48d65b5af30e4be6d9771f310fc45" type="video/mp4">
-  </video>
+  <canvas id="bg"></canvas>
+  <img src="https://i.ibb.co/fYB6GXw2/logo.png" alt="CodeByDavid Logo" class="logo" />
 
-  <!-- canvas for luminous particles / circuit lines -->
-  <canvas id="bg-canvas" aria-hidden="true"></canvas>
-  <div class="overlay" aria-hidden="true"></div>
+  <header class="hero">
+    <h1>Building the Future of Web Experiences</h1>
+    <p>Modern, intelligent, and high-performance websites for your business</p>
+  </header>
 
-  <div class="wrap">
-    <!-- HEADER -->
-    <header>
-      <div class="brand">
-        <div class="logo"><img id="logoImg" src="https://i.ibb.co/fYB6GXw2/logo.png" alt="CodeByDavid Logo"></div>
-        <div>
-          <h1>CodeByDavid</h1>
-          <div class="tag">Futuristic web experiences • Websites for businesses</div>
-        </div>
+  <section id="about">
+    <h2>About Me</h2>
+    <div class="about">
+      <div class="text">
+        <p>
+          I'm David — a passionate web developer who creates futuristic, elegant, and responsive websites designed to boost your business presence online. Every line of code I write aims for perfection, performance, and innovation.
+        </p>
       </div>
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+    </div>
+  </section>
 
-    <main>
-      <!-- HERO -->
-      <section id="home" class="hero" aria-label="Hero">
-        <!-- decorative shapes (SVGs) behind content - different shapes -->
-        <svg class="hero-shape-a" width="560" height="560" viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="rgba(0,200,255,0.14)"/>
-              <stop offset="1" stop-color="rgba(0,120,255,0.03)"/>
-            </linearGradient>
-          </defs>
-          <path d="M40 120 C 120 -20, 420 10, 520 120 C 560 180, 520 380, 420 470 C 240 540, 60 460, 40 320 C 20 220, 40 140, 40 120 Z" fill="url(#g1)"/>
-        </svg>
+  <section id="projects">
+    <h2>Selected Projects</h2>
+    <div class="projects">
+      <div class="project">
+        <img src="https://i.ibb.co/YbBq6W7/example1.jpg" alt="Project 1" />
+        <h3>Corporate Vision Website</h3>
+      </div>
+      <div class="project">
+        <img src="https://i.ibb.co/RcYZ6Rn/example2.jpg" alt="Project 2" />
+        <h3>Portfolio Landing Page</h3>
+      </div>
+      <div class="project">
+        <img src="https://i.ibb.co/6WnB6LD/example3.jpg" alt="Project 3" />
+        <h3>Startup Tech Showcase</h3>
+      </div>
+    </div>
+  </section>
 
-        <svg class="hero-shape-b" width="520" height="520" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <radialGradient id="rg2" cx="0.2" cy="0.2">
-              <stop offset="0" stop-color="rgba(0,220,255,0.12)"/>
-              <stop offset="1" stop-color="transparent"/>
-            </radialGradient>
-          </defs>
-          <path d="M20 60 C 180 -20, 420 10, 500 120 C 520 180, 480 360, 380 420 C 220 500, 60 420, 20 320 C 0 220, 12 90, 20 60 Z" fill="url(#rg2)"/>
-        </svg>
+  <section id="pricing">
+    <h2>Pricing Plans</h2>
+    <div class="pricing">
+      <div class="plan">
+        <h3>Starter</h3>
+        <p>Perfect for small projects</p>
+        <div class="price">$10</div>
+      </div>
+      <div class="plan">
+        <h3>Professional</h3>
+        <p>Ideal for businesses and creators</p>
+        <div class="price">$15</div>
+      </div>
+      <div class="plan">
+        <h3>Premium</h3>
+        <p>Complete website package with animations</p>
+        <div class="price">$20</div>
+      </div>
+    </div>
+  </section>
 
-        <div class="hero-card fade" id="heroCard">
-          <h2 class="hero-title">Designing the Web of <span style="background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Tomorrow</span> — Fast, Elegant & Intelligent.</h2>
-          <p class="hero-sub">At <strong>CodeByDavid</strong> I build professional websites for businesses that need to stand out online.
-            <span id="typing" class="typing" aria-hidden="true"></span>
-          </p>
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <div class="contact">
+      <p>Let's create something amazing together!</p>
+      <p>📧 <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></p>
+    </div>
+  </section>
 
-          <div class="hero-cta">
-            <button class="btn primary" id="hireBtn">Quick Start — $12</button>
-            <button class="btn ghost" id="seeProjects">Explore Projects</button>
-          </div>
-        </div>
+  <footer>
+    © 2025 CodeByDavid — Crafted with precision and passion.
+  </footer>
 
-        <div class="hero-panel fade" aria-hidden="true">
-          <!-- panel with a different decorative animated svg -->
-          <svg class="panel-deco" width="420" height="420" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <defs>
-              <linearGradient id="pgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(0,200,255,0.10)"/><stop offset="1" stop-color="rgba(0,120,255,0.02)"/></linearGradient>
-            </defs>
-            <path d="M30 120 C 120 10, 300 -10, 380 80 C 420 130, 370 260, 310 320 C 180 390, 70 320, 40 240 C 10 170, 20 150, 30 120 Z" fill="url(#pgrad)"/>
-          </svg>
-          <div class="panel-text">Production-ready websites • Fast delivery • Deployment support</div>
-        </div>
-      </section>
-
-      <!-- ABOUT -->
-      <section id="about" class="fade">
-        <div class="about-grid">
-          <div class="about-visual">
-            <!-- decorative blob behind visual area -->
-            <svg class="about-blob" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><linearGradient id="ab1" x1="0" x2="1"><stop stop-color="rgba(0,210,255,0.12)" offset="0"/><stop stop-color="rgba(0,120,255,0.03)" offset="1"/></linearGradient></defs>
-              <path d="M70 330 C 40 230, 60 120, 170 80 C 290 20, 410 44, 500 120 C 560 180, 520 320, 430 380 C 300 460, 160 420, 70 330 Z" fill="url(#ab1)"/>
-            </svg>
-            <!-- center image / video placeholder -->
-            <img src="https://picsum.photos/seed/heroimg/900/600" alt="Visual sample" style="position:relative;z-index:2;width:100%;height:100%;object-fit:cover">
-          </div>
-
-          <div class="section-shell" aria-label="About text">
-            <h3 style="color:var(--neon1);margin:0 0 12px">About</h3>
-            <div class="about-text">
-              I'm David — I build and deliver <strong>production-ready websites</strong> for businesses: landing pages, portfolios, e-commerce and custom sites.
-              My focus is conversion-first design, fast performance, and pixel-perfect interactions that communicate trust and professionalism.
-            </div>
-            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-              <div class="small-btn">Design & Conversion</div>
-              <div class="small-btn">Mobile-first & Fast</div>
-              <div class="small-btn">Deployment & Support</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PROJECTS (each tile has its own decor) -->
-      <section id="projects" class="fade">
-        <h3 style="color:var(--neon1);margin:0 0 12px">Selected Projects</h3>
-        <div class="projects-grid">
-          <!-- tile 1 - arc overlay -->
-          <div class="proj-tile">
-            <div class="proj-thumb">
-              <svg viewBox="0 0 800 180" style="position:absolute;left:0;top:0;z-index:1;opacity:.22;filter:blur(12px)">
-                <defs><linearGradient id="tg1"><stop offset="0" stop-color="#00e7ff"/><stop offset="1" stop-color="#0077ff"/></linearGradient></defs>
-                <path d="M0 120 C120 40, 280 10, 420 46 C560 82, 700 20, 800 24 L800 180 L0 180 Z" fill="url(#tg1)"></path>
-              </svg>
-              <img src="https://picsum.photos/seed/web1/1200/600" alt="Project 1" style="position:relative;z-index:2;width:100%;height:100%;object-fit:cover">
-            </div>
-            <div class="proj-meta">
-              <div class="proj-title">Modern Business Site</div>
-              <div class="proj-desc">A high-conversion landing with clear funnels and fast load times.</div>
-            </div>
-            <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary demo-btn">Live preview</button><button class="btn ghost">Details</button></div>
-          </div>
-
-          <!-- tile 2 - dot-field overlay -->
-          <div class="proj-tile">
-            <div class="proj-thumb">
-              <svg viewBox="0 0 800 180" style="position:absolute;left:0;top:0;z-index:1;opacity:.16;filter:blur(6px)">
-                <g fill="rgba(0,200,255,0.12)"><circle cx="60" cy="50" r="2"/><circle cx="140" cy="30" r="2"/><circle cx="240" cy="70" r="2"/><circle cx="360" cy="40" r="2"/><circle cx="520" cy="60" r="2"/></g>
-              </svg>
-              <img src="https://picsum.photos/seed/web2/1200/600" alt="Project 2" style="position:relative;z-index:2;width:100%;height:100%;object-fit:cover">
-            </div>
-            <div class="proj-meta">
-              <div class="proj-title">Creative Portfolio</div>
-              <div class="proj-desc">Visual-first portfolio with smooth micro-interactions.</div>
-            </div>
-            <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary demo-btn">Live preview</button><button class="btn ghost">Details</button></div>
-          </div>
-
-          <!-- tile 3 - diagonal glass -->
-          <div class="proj-tile">
-            <div class="proj-thumb" style="position:relative;">
-              <svg viewBox="0 0 800 180" style="position:absolute;left:0;top:0;z-index:1;opacity:.18;filter:blur(8px)">
-                <path d="M0 0 L800 0 L620 180 L0 180 Z" fill="rgba(0,150,255,0.06)"></path>
-              </svg>
-              <img src="https://picsum.photos/seed/web3/1200/600" alt="Project 3" style="position:relative;z-index:2;width:100%;height:100%;object-fit:cover">
-            </div>
-            <div class="proj-meta">
-              <div class="proj-title">Dynamic E-Commerce</div>
-              <div class="proj-desc">Fast product browsing, quick checkout and responsive UX.</div>
-            </div>
-            <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary demo-btn">Live preview</button><button class="btn ghost">Details</button></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SERVICES -->
-      <section id="services" class="fade">
-        <h3 style="color:var(--neon1);margin-bottom:12px">Services & Packages</h3>
-        <div class="svc-grid">
-          <div class="svc-card">
-            <div class="ribbon">$12</div>
-            <div style="font-weight:900;margin-bottom:8px">Landing Page — Quick Start</div>
-            <div style="color:var(--muted);font-size:13px">One-page responsive landing with deployed link and 24–48h turnaround.</div>
-            <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Landing Page — Quick Start','$12')">Get it</button></div>
-          </div>
-
-          <div class="svc-card">
-            <div class="ribbon">$30</div>
-            <div style="font-weight:900;margin-bottom:8px">Portfolio — Professional</div>
-            <div style="color:var(--muted);font-size:13px">Multi-section portfolio with animations, mobile support and deployment guidance.</div>
-            <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Portfolio — Professional','$30')">Get it</button></div>
-          </div>
-
-          <div class="svc-card">
-            <div class="ribbon">$60</div>
-            <div style="font-weight:900;margin-bottom:8px">Custom Site — Starter</div>
-            <div style="color:var(--muted);font-size:13px">Custom small-business website — responsive, accessible and production-ready.</div>
-            <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Custom Site — Starter','$60')">Request quote</button></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact" class="fade">
-        <h3 style="color:var(--neon1);margin-bottom:8px">Contact</h3>
-        <div class="contact-grid">
-          <div class="contact-card section-shell">
-            <div style="font-weight:800;color:var(--neon1);font-size:18px">Ready to start your website?</div>
-            <p style="color:var(--muted);margin-top:8px">Fast replies and clear delivery timelines. Send a short brief and your deadline for fastest response.</p>
-            <div style="margin-top:12px"><a class="small-btn" href="mailto:santamariadavid0724@gmail.com">✉️ Email me</a></div>
-          </div>
-
-          <div class="contact-card section-shell" aria-hidden="true">
-            <div style="color:var(--muted)">Need help choosing a package?</div>
-            <div style="margin-top:12px"><button class="btn primary" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See packages</button></div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <footer>© <span id="year"></span> CodeByDavid — Futuristic web experiences</footer>
-  </div>
-
-  <!-- SCRIPTS: particles (circuit-like), typing effect, animations, basic interactions -->
   <script>
-    // Canvas particles + circuit lines (luminous)
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let W = canvas.width = innerWidth;
-    let H = canvas.height = innerHeight;
-    window.addEventListener('resize', ()=>{ W = canvas.width = innerWidth; H = canvas.height = innerHeight; init(); });
+    // Animated particle background
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    function rand(min,max){ return Math.random()*(max-min)+min; }
-    let nodes = [];
-    function Node(){ this.x = rand(0,W); this.y = rand(0,H); this.vx = rand(-0.45,0.45); this.vy = rand(-0.22,0.22); this.r = rand(0.6,2.8); this.a = rand(0.12,0.95); }
-    function init(){ nodes = []; const density = Math.max(70, Math.floor((W*H)/90000)); for(let i=0;i<density;i++) nodes.push(new Node()); }
-    function draw(){
-      ctx.clearRect(0,0,W,H);
-      // faint radial glow
-      const g = ctx.createRadialGradient(W*0.12,H*0.06,0,W*0.8,H*0.8,Math.max(W,H));
-      g.addColorStop(0,'rgba(0,40,60,0.08)');
-      g.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    let particlesArray = [];
 
-      // draw nodes
-      for(let i=0;i<nodes.length;i++){
-        const p = nodes[i];
-        p.x += p.vx; p.y += p.vy;
-        if(p.x<0) p.x = W; if(p.x>W) p.x=0;
-        if(p.y<0) p.y = H; if(p.y>H) p.y=0;
-        ctx.beginPath(); ctx.fillStyle = `rgba(0,200,255,${p.a})`; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    class Particle {
+      constructor(x, y, size, speedX, speedY) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.speedX = speedX;
+        this.speedY = speedY;
       }
-
-      // circuit lines
-      for(let i=0;i<nodes.length;i++){
-        for(let j=i+1;j<nodes.length;j++){
-          const a = nodes[i], b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.sqrt(dx*dx+dy*dy);
-          if(d < 140){
-            const alpha = 0.14 * (1 - d/140);
-            ctx.strokeStyle = `rgba(0,220,255,${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-            if(Math.random() < 0.0012){
-              ctx.fillStyle = `rgba(255,255,255,${alpha})`; ctx.fillRect((a.x+b.x)/2-1,(a.y+b.y)/2-1,2,2);
-            }
-          }
-        }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
       }
-      requestAnimationFrame(draw);
-    }
-    init(); draw();
-
-    // Reveal animations for sections
-    const fades = document.querySelectorAll('.fade');
-    const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:0.12});
-    fades.forEach(f=>io.observe(f));
-
-    // Typing rotating words effect
-    const typingEl = document.getElementById('typing');
-    const words = ['websites that convert.', 'immersive web experiences.', 'pixel-perfect interfaces.', 'fast delivery & support.'];
-    let wi=0, ci=0, forward=true;
-    function loopTxt(){
-      const w = words[wi];
-      if(forward){ ci++; if(ci> w.length){ forward=false; setTimeout(loopTxt,1200); return; } }
-      else{ ci--; if(ci<0){ forward=true; wi=(wi+1)%words.length; setTimeout(loopTxt,600); return; } }
-      typingEl.textContent = w.slice(0,ci);
-      setTimeout(loopTxt, forward?48:26);
-    }
-    setTimeout(loopTxt,900);
-
-    // micro audio (optional UX)
-    let audioCtx;
-    function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
-    function playHover(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sine'; o.frequency.setValueAtTime(760,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(980,audioCtx.currentTime+0.06); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.02,audioCtx.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),140);}catch(e){} }
-    function playClick(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='triangle'; o.frequency.setValueAtTime(320,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(140,audioCtx.currentTime+0.12); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.05,audioCtx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.25); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),260);}catch(e){} }
-    document.querySelectorAll('.btn, .demo-btn').forEach(el=>{ el.addEventListener('mouseenter', ()=>playHover()); el.addEventListener('click', ()=>playClick()); });
-
-    // utilities
-    document.getElementById('year').innerText = new Date().getFullYear();
-    document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Quick%20Start%20-%20Landing%20Page');
-    document.getElementById('seeProjects').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
-    function contactWithProduct(product,price){
-      const subject = encodeURIComponent('Order: '+product+' — '+price);
-      const body = encodeURIComponent('Hi, I would like to order '+product +". Please share next steps and delivery time.\n\nThanks.");
-      location.href = `mailto:santamariadavid0724@gmail.com?subject=${subject}&body=${body}`;
+      draw() {
+        ctx.fillStyle = "rgba(0,255,255,0.8)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
 
-    // hide video if errors (canvas remains)
-    const bgVideo = document.getElementById('bg-video');
-    bgVideo.addEventListener('error', ()=>{ bgVideo.style.display='none'; });
+    function init() {
+      for (let i = 0; i < 80; i++) {
+        const size = Math.random() * 3;
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const speedX = (Math.random() - 0.5) * 2;
+        const speedY = (Math.random() - 0.5) * 2;
+        particlesArray.push(new Particle(x, y, size, speedX, speedY));
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
   </script>
 </body>
 </html>
