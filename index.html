@@ -3,485 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodeByDavid — Professional Websites for Modern Businesses</title>
+  <title>CodeByDavid — Modern Web Experiences</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
     body {
-      background: #050510;
-      color: #fff;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #0a0a0a, #010409);
+      color: white;
       overflow-x: hidden;
     }
 
-    nav {
+    /* Background particles */
+    #particles {
       position: fixed;
       width: 100%;
-      top: 0;
-      left: 0;
-      background: rgba(5, 5, 20, 0.8);
-      backdrop-filter: blur(20px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 3rem;
-      z-index: 10;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-    }
-
-    nav .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.5rem;
-      color: #00ffff;
-    }
-
-    nav .logo img {
-      height: 40px;
-      width: 40px;
-      object-fit: contain;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-    }
-
-    nav ul li {
-      margin-left: 2rem;
-    }
-
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      transition: 0.3s;
-      font-weight: 600;
-    }
-
-    nav ul li a:hover {
-      color: #00ffff;
-    }
-
-    section#hero {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: radial-gradient(circle at 30% 50%, rgba(0, 200, 255, 0.15), rgba(0, 0, 0, 1));
-    }
-
-    #particles {
-      position: absolute;
-      width: 100%;
       height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at center, rgba(0, 40, 80, 0.3), rgba(0, 0, 0, 0.8));
+      animation: pulse 8s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    header {
+      position: fixed;
       top: 0;
       left: 0;
-      z-index: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      z-index: 10;
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-      padding: 2rem;
-      animation: fadeInUp 1.2s ease forwards;
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: fadeIn 2s ease, float 3s ease-in-out infinite alternate;
     }
 
-    .glass-orb {
-      background: rgba(20, 20, 35, 0.35);
-      backdrop-filter: blur(25px);
-      border: 1px solid rgba(0, 255, 255, 0.25);
-      border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
-      padding: 4rem;
-      transition: all 0.6s ease;
-      box-shadow: 0 0 60px rgba(0, 200, 255, 0.15), inset 0 0 30px rgba(0, 200, 255, 0.05);
+    .logo img {
+      width: 60px;
+      height: 60px;
+      filter: drop-shadow(0 0 8px #00aaff);
     }
 
-    .glass-orb:hover {
-      transform: perspective(1000px) rotateY(-5deg) scale(1.05);
-      box-shadow: 0 0 80px rgba(0, 255, 255, 0.25);
+    .logo h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #00b7ff;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px #00aaff;
     }
 
-    .glass-orb h1 {
-      font-size: 2.8rem;
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .glass-orb h1 span {
-      background: linear-gradient(90deg, #00ffff, #0077ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .glass-orb p {
-      font-size: 1.15rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 1.2rem;
-      max-width: 700px;
-      margin-inline: auto;
-    }
-
-    .hero-buttons {
-      margin-top: 2rem;
-    }
-
-    .btn {
-      display: inline-block;
-      margin: 0 0.7rem;
-      padding: 0.9rem 2rem;
-      border-radius: 30px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .btn.primary {
-      background: linear-gradient(90deg, #00ffff, #0077ff);
-      color: #000;
-    }
-
-    .btn.secondary {
-      border: 1px solid #00ffff;
-      color: #00ffff;
-      background: transparent;
-    }
-
-    .btn.primary:hover {
-      filter: brightness(1.3);
-    }
-
-    .btn.secondary:hover {
-      background: rgba(0, 255, 255, 0.15);
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(50px); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    section#about {
-      padding: 7rem 3rem;
-      text-align: center;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,10,20,0.98));
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(5px); }
     }
 
-    #about h2 {
-      font-size: 2.2rem;
-      color: #00ffff;
-      margin-bottom: 1.5rem;
-    }
-
-    #about p {
-      font-size: 1.1rem;
-      color: rgba(255,255,255,0.8);
-      max-width: 800px;
-      margin: auto;
-      line-height: 1.7;
-    }
-
-    section#projects {
-      padding: 7rem 3rem;
-      text-align: center;
-    }
-
-    #projects h2 {
-      font-size: 2.2rem;
-      color: #00ffff;
-      margin-bottom: 3rem;
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .project {
-      background: rgba(20,20,35,0.4);
-      border: 1px solid rgba(0,255,255,0.15);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: 0.4s;
-      box-shadow: 0 0 20px rgba(0,255,255,0.1);
-    }
-
-    .project:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 0 40px rgba(0,255,255,0.2);
-    }
-
-    .project img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .project h3 {
-      margin: 1rem 0;
-      color: #00ffff;
-    }
-
-    section#pricing {
-      padding: 7rem 3rem;
-      text-align: center;
-      background: rgba(0,10,20,0.98);
-    }
-
-    #pricing h2 {
-      color: #00ffff;
-      font-size: 2.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .pricing-grid {
+    .hero {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       justify-content: center;
-      gap: 2rem;
-    }
-
-    .price-card {
-      background: rgba(15,15,30,0.6);
-      border: 1px solid rgba(0,255,255,0.2);
-      border-radius: 25px;
-      width: 280px;
-      padding: 2rem;
-      transition: 0.4s;
-      box-shadow: 0 0 20px rgba(0,255,255,0.1);
-    }
-
-    .price-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 50px rgba(0,255,255,0.25);
-    }
-
-    .price-card h3 {
-      color: #00ffff;
-      margin-bottom: 0.5rem;
-    }
-
-    .price-card p {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 1rem;
-    }
-
-    .price-card .price {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #00ffff;
-      margin-bottom: 1rem;
-    }
-
-    .price-card a {
-      text-decoration: none;
-      color: #000;
-      background: linear-gradient(90deg,#00ffff,#0077ff);
-      padding: 0.7rem 1.5rem;
-      border-radius: 25px;
-      font-weight: 700;
-      transition: 0.3s;
-      display: inline-block;
-    }
-
-    .price-card a:hover {
-      filter: brightness(1.2);
-    }
-
-    section#contact {
-      padding: 7rem 3rem;
+      align-items: center;
       text-align: center;
+      height: 100vh;
+      padding: 100px 20px;
     }
 
-    #contact h2 {
-      color: #00ffff;
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
+    .hero h2 {
+      font-size: 3rem;
+      color: #00bfff;
+      text-shadow: 0 0 20px #00aaff;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease;
     }
 
-    #contact p {
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 2rem;
-    }
-
-    form {
-      max-width: 500px;
-      margin: auto;
-    }
-
-    input, textarea {
-      width: 100%;
-      background: rgba(20,20,40,0.6);
-      border: 1px solid rgba(0,255,255,0.2);
-      color: #fff;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      outline: none;
-      font-size: 1rem;
-    }
-
-    button {
-      background: linear-gradient(90deg,#00ffff,#0077ff);
-      color: #000;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 30px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      filter: brightness(1.3);
+    .hero p {
+      max-width: 600px;
+      color: #ddd;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      animation: fadeIn 2.5s ease;
     }
 
     footer {
-      padding: 2rem;
       text-align: center;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
       font-size: 0.9rem;
-      color: rgba(255,255,255,0.5);
-      border-top: 1px solid rgba(0,255,255,0.2);
-      background: rgba(0,5,10,0.9);
+      color: #aaa;
     }
+
+    footer a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
   </style>
 </head>
-
 <body>
-  <nav>
-    <div class="logo"><img src="logo.png" alt="Logo">CodeByDavid</div>
-    <ul>
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <div id="particles"></div>
 
-  <section id="hero">
-    <canvas id="particles"></canvas>
-    <div class="hero-content">
-      <div class="glass-orb">
-        <h1>
-          We Build <span>Professional Websites</span> for Your Business
-        </h1>
-        <p>
-          At <strong>CodeByDavid</strong>, I create modern, fast, and stunning websites  
-          designed to help your brand grow and stand out online.  
-          Whether you need a portfolio, e-commerce, or corporate site — I build it with a futuristic touch.
-        </p>
-        <div class="hero-buttons">
-          <a href="#projects" class="btn primary">See My Work</a>
-          <a href="#contact" class="btn secondary">Get Your Website</a>
-        </div>
-      </div>
+  <header>
+    <div class="logo">
+      <img src="https://i.ibb.co/fYB6GXw2/logo.png" alt="CodeByDavid Logo">
+      <h1>CodeByDavid</h1>
     </div>
-  </section>
+  </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      I'm David — a web creator passionate about helping businesses build a strong online presence.  
-      I focus on crafting elegant, high-performance, and visually appealing websites that reflect your brand identity.  
-      From concept to launch, I deliver web experiences that attract, engage, and convert visitors into clients.
-    </p>
-  </section>
-
-  <section id="projects">
-    <h2>My Work</h2>
-    <div class="project-grid">
-      <div class="project"><img src="https://i.ibb.co/vhPwL2f/website1.jpg" alt=""><h3>Modern Business Site</h3></div>
-      <div class="project"><img src="https://i.ibb.co/1Qmpzsn/website2.jpg" alt=""><h3>Creative Portfolio</h3></div>
-      <div class="project"><img src="https://i.ibb.co/vhgRrGs/website3.jpg" alt=""><h3>Dynamic E-Commerce</h3></div>
-    </div>
-  </section>
-
-  <section id="pricing">
-    <h2>Pricing Plans</h2>
-    <div class="pricing-grid">
-      <div class="price-card">
-        <h3>Starter</h3>
-        <p>Ideal for small businesses or personal websites.</p>
-        <div class="price">$10</div>
-        <a href="#contact">Start Now</a>
-      </div>
-      <div class="price-card">
-        <h3>Professional</h3>
-        <p>Includes responsive design, animations, and SEO setup.</p>
-        <div class="price">$18</div>
-        <a href="#contact">Order Website</a>
-      </div>
-      <div class="price-card">
-        <h3>Premium</h3>
-        <p>Full website package with advanced features & priority support.</p>
-        <div class="price">$25</div>
-        <a href="#contact">Get Premium</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <p>Ready to bring your business online? Let’s make it happen.</p>
-    <form>
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea rows="4" placeholder="Your Message"></textarea>
-      <button type="submit">Send Message</button>
-    </form>
+  <section class="hero">
+    <h2>Building the Future of the Web</h2>
+    <p>At CodeByDavid, we create modern, intelligent, and elegant websites that empower your business. 
+      Our designs combine speed, innovation, and technology to turn your vision into a professional digital experience.</p>
   </section>
 
   <footer>
-    © 2025 CodeByDavid — Professional Web Creation Services.
+    <p>© 2025 CodeByDavid — Crafted with passion and technology.</p>
+    <p>Contact: <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></p>
   </footer>
-
-  <script>
-    const canvas = document.getElementById("particles");
-    const ctx = canvas.getContext("2d");
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    const particles = Array.from({ length: 100 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 2 + 0.5,
-      speedX: (Math.random() - 0.5) * 0.6,
-      speedY: (Math.random() - 0.5) * 0.6
-    }));
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(0,255,255,0.5)";
-      particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-      });
-      requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
 </body>
 </html>
