@@ -1,28 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>CodeByDavid — Futuristic Web Experiences</title>
-<meta name="description" content="CodeByDavid — professional, futuristic websites for businesses."/>
+<title>CodeByDavid — Futuristic Websites (Aggressive UI)</title>
+<meta name="description" content="CodeByDavid — professional, futuristic websites.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#04050a;
+  --bg:#03050a;
   --neon1:#00e7ff;
-  --neon2:#0088ff;
+  --neon2:#0077ff;
   --muted:#9fb7d7;
-  --glass: rgba(255,255,255,0.04);
-  --card: rgba(8,12,18,0.6);
-  --accent-grad: linear-gradient(90deg,var(--neon1),var(--neon2));
+  --glass: rgba(255,255,255,0.03);
+  --accent: linear-gradient(90deg,var(--neon1),var(--neon2));
   --maxw:1200px;
+  --ui-shadow: 0 30px 90px rgba(0,120,200,0.08);
 }
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:#eaf8ff;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; -webkit-font-smoothing:antialiased;}
+html,body{height:100%;margin:0;background:var(--bg);color:#eaf8ff;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; -webkit-font-smoothing:antialiased}
 a{color:var(--neon1);text-decoration:none}
 
-/* fixed background video + canvas for particles/circuits */
-#bg-video{position:fixed;inset:0;width:auto;height:auto;min-width:100%;min-height:100%;object-fit:cover;z-index:0;filter:brightness(.6) contrast(1.02)}
+/* === background layers === */
+#bg-video{position:fixed;inset:0;width:auto;height:auto;min-width:100%;min-height:100%;object-fit:cover;z-index:0;filter:brightness(.55) saturate(1.05)}
 #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,4,8,0.22), rgba(0,2,6,0.6));z-index:1;pointer-events:none}
 
@@ -30,85 +30,167 @@ a{color:var(--neon1);text-decoration:none}
 .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:28px}
 
 /* header */
-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:6px}
-.brand{display:flex;align-items:center;gap:14px}
-.logo{width:86px;height:86px;border-radius:18px;background:linear-gradient(135deg,#001a2a,var(--neon2));display:flex;align-items:center;justify-content:center;box-shadow:0 20px 70px rgba(0,140,255,0.09), inset 0 -12px 30px rgba(255,255,255,0.02);animation:logoPop .9s cubic-bezier(.2,.9,.2,1)}
-.logo img{width:66px;height:66px;object-fit:contain;border-radius:12px;display:block;filter:drop-shadow(0 6px 18px rgba(0,160,255,0.12))}
-@keyframes logoPop{from{opacity:0;transform:translateY(-12px) scale(.9)}to{opacity:1;transform:none}}
-.brand h1{font-size:18px;margin:0;font-weight:800;color:var(--neon1);letter-spacing:.6px}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:6px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,#001a28,var(--neon2));display:flex;align-items:center;justify-content:center;box-shadow:0 26px 90px rgba(0,120,200,0.08), inset 0 -10px 24px rgba(255,255,255,0.02);animation:logoFloat 1s ease}
+.logo img{width:64px;height:64px;object-fit:contain;border-radius:10px;filter:drop-shadow(0 8px 20px rgba(0,150,255,0.12))}
+@keyframes logoFloat{from{opacity:0;transform:translateY(-10px) scale(.94)}to{opacity:1;transform:none}}
+.brand h1{margin:0;font-weight:800;color:var(--neon1);letter-spacing:.6px}
 .tag{color:var(--muted);font-size:13px}
 
 /* nav */
 nav{display:flex;gap:12px;align-items:center}
-nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:rgba(230,247,255,0.95)}
+nav a{padding:8px 12px;border-radius:10px;font-weight:700;color:rgba(230,247,255,0.95)}
 nav a:hover{background:linear-gradient(90deg, rgba(0,230,255,0.06), rgba(0,110,200,0.02));color:var(--neon1)}
 
-/* hero - irregular shapes, glass orb */
-.hero{position:relative;display:grid;grid-template-columns:1fr 520px;gap:28px;align-items:center;padding:64px 0 36px}
-.hero-orb{position:relative;padding:48px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(10px);box-shadow:0 40px 120px rgba(0,0,0,0.6);overflow:visible}
-.hero-blob{
-  position:absolute;left:-90px;top:-120px;width:760px;height:760px;z-index:0;
-  background: radial-gradient(circle at 25% 25%, rgba(0,200,255,0.14), transparent 12%), linear-gradient(135deg, rgba(0,120,255,0.05), rgba(0,200,255,0.03));
-  filter:blur(36px);
-  border-radius:40% 60% 40% 60%/50% 40% 60% 50%;
-  transform:rotate(-6deg);
+/* ============ HERO (aggressive, asymmetric) ============ */
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr 520px;
+  gap:28px;
+  align-items:center;
+  padding:72px 0 36px;
+  overflow:visible;
 }
-.hero-title{position:relative;font-size:40px;line-height:1.02;margin:0 0 14px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;z-index:2}
-.hero-sub{color:#cfefff;margin-bottom:18px;font-size:16px;z-index:2;position:relative}
-.typing{color:#dff9ff;font-weight:800;border-right:3px solid rgba(255,255,255,0.06);display:inline-block;padding-right:6px;margin-left:10px}
 
-/* custom irregular cards for sections, not rectangles */
-.section-shell{position:relative;margin-top:20px;padding:20px;border-radius:24px;background:linear-gradient(180deg, rgba(8,12,18,0.56), rgba(4,6,10,0.45));backdrop-filter: blur(6px);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+/* large animated fractured background shapes */
+.hero-shard{
+  position:absolute;
+  inset:auto;
+  width:520px;
+  height:520px;
+  right:-140px;
+  top:-60px;
+  z-index:0;
+  transform:rotate(-18deg);
+  filter:blur(36px) saturate(1.05);
+  opacity:.95;
+  background: radial-gradient(circle at 20% 30%, rgba(0,190,255,0.12), transparent 12%), linear-gradient(135deg, rgba(0,120,255,0.06), rgba(0,200,255,0.03));
+  clip-path: polygon(10% 20%, 75% 5%, 95% 30%, 82% 70%, 52% 85%, 18% 70%, 0% 40%);
+  animation:rotShard 18s linear infinite;
+}
+@keyframes rotShard{ 0%{transform:rotate(-18deg) translateY(0)} 50%{transform:rotate(-12deg) translateY(-12px)} 100%{transform:rotate(-18deg) translateY(0)} }
 
-/* projects - tiles with unusual shapes */
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:18px}
-.tile{position:relative;padding:18px;border-radius:18px;background:linear-gradient(180deg, rgba(6,12,18,0.55), rgba(3,6,10,0.55));overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,0.65);transition:transform .28s ease}
-.tile:before{content:"";position:absolute;right:-40px;top:-60px;width:180px;height:220px;border-radius:48% 52% 40% 60%/50% 40% 60% 50%;background:linear-gradient(90deg, rgba(0,180,255,0.06), rgba(0,120,220,0.02));transform:rotate(14deg);filter:blur(20px)}
-.tile:hover{transform:translateY(-12px);box-shadow:0 40px 130px rgba(0,140,255,0.08)}
-.mockup{height:180px;border-radius:12px;background:linear-gradient(135deg,#00121a,#061726);display:flex;align-items:center;justify-content:center;color:rgba(220,240,255,0.06);font-weight:900;font-size:20px;position:relative;overflow:hidden;box-shadow:inset 0 -12px 40px rgba(255,255,255,0.02)}
-.meta{margin-top:12px}
-.meta .t{font-weight:800;color:var(--neon1)}
-.meta .d{color:var(--muted);font-size:13px}
+/* main orb / container with aggressive non-rectangular shape */
+.hero-orb{
+  position:relative;
+  z-index:2;
+  padding:48px 54px;
+  color:#eaf8ff;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+  border-radius:28px;
+  backdrop-filter: blur(10px);
+  box-shadow:var(--ui-shadow);
+  overflow:visible;
+  /* clip path gives aggressive shape */
+  clip-path: polygon(5% 0%, 95% 0%, 100% 22%, 88% 52%, 66% 78%, 40% 100%, 10% 86%, 2% 46%);
+  transition:transform .45s cubic-bezier(.2,.9,.2,1);
+}
+.hero-orb:hover{transform:translateY(-10px) scale(1.01);box-shadow:0 50px 160px rgba(0,140,255,0.12)}
 
-/* services */
-.services{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:12px}
-.svc{position:relative;padding:18px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:visible}
-.ribbon{position:absolute;left:-34px;top:18px;padding:10px 42px;background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#021226;font-weight:900;border-radius:8px;transform:rotate(-18deg);box-shadow:0 18px 60px rgba(0,170,255,0.12)}
-.svc .svc-title{font-weight:800;margin-bottom:8px}
-.svc .svc-desc{color:var(--muted);font-size:13px}
+/* title stylized */
+.hero-title{
+  font-size:42px;
+  line-height:1.02;
+  font-weight:900;
+  margin:0 0 12px;
+  background:var(--accent);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow: 0 0 30px rgba(0,160,255,0.06);
+}
 
-/* contact */
-.contact-grid{display:grid;grid-template-columns:1fr 360px;gap:22px}
-.contact-cta{font-weight:800;color:var(--neon1);font-size:18px}
-.mail{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,194,255,0.06), transparent);color:var(--neon1)}
+/* subtitle and typing */
+.hero-sub{color:#cfefff;margin-bottom:18px;font-size:16px}
+.typing{color:#dff9ff;font-weight:900;border-right:3px solid rgba(255,255,255,0.06);display:inline-block;padding-right:8px;margin-left:10px;}
 
-/* footer */
-footer{padding:30px 0;color:var(--muted);text-align:center}
+/* shard overlays inside orb for depth */
+.hero-orb:after{
+  content:"";
+  position:absolute;
+  right:-40px;
+  top:20px;
+  width:220px;height:220px;
+  background:linear-gradient(90deg, rgba(0,220,255,0.06), transparent);
+  filter:blur(20px);
+  clip-path: polygon(40% 0, 100% 20%, 80% 80%, 10% 100%, 0 40%);
+  z-index:0;
+}
 
-/* buttons */
-.btn{padding:12px 22px;border-radius:999px;font-weight:800;border:none;cursor:pointer;transition:all .22s ease}
-.btn.primary{background:var(--accent-grad);color:#021226;box-shadow:0 14px 40px rgba(0,170,255,0.08)}
-.btn.primary:hover{transform:translateY(-6px);box-shadow:0 28px 90px rgba(0,200,255,0.16)}
+/* call-to-action */
+.cta{margin-top:18px;display:flex;gap:14px;align-items:center}
+.btn{padding:12px 22px;border-radius:999px;font-weight:900;border:none;cursor:pointer;transition:all .22s ease}
+.btn.primary{background:var(--accent);color:#011223;box-shadow:0 16px 50px rgba(0,170,255,0.08)}
+.btn.primary:hover{transform:translateY(-6px);box-shadow:0 36px 110px rgba(0,200,255,0.16)}
 .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
 
+/* ============ SECTIONS: non-rectangular cards ============ */
+.section-shell{
+  position:relative;
+  margin-top:28px;
+  padding:20px;
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(8,12,18,0.56), rgba(4,6,10,0.45));
+  backdrop-filter: blur(6px);
+  box-shadow:var(--ui-shadow);
+  overflow:visible;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 86% 100%, 10% 92%, 0% 60%);
+}
+
+/* PROJECTS: tiles with crazy clipped shapes */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:18px}
+.tile{
+  position:relative;
+  padding:18px;
+  border-radius:16px;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(6,10,14,0.66), rgba(2,6,10,0.6));
+  box-shadow:0 18px 80px rgba(0,0,0,0.6);
+  transition:transform .28s ease, box-shadow .28s;
+  clip-path: polygon(8% 0%, 92% 0%, 100% 30%, 90% 66%, 60% 100%, 18% 86%, 0% 48%);
+}
+.tile:hover{transform:translateY(-12px) rotate(-0.6deg);box-shadow:0 40px 140px rgba(0,120,255,0.08)}
+.mockup{height:180px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#00121a,#061726);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:inset 0 -12px 40px rgba(255,255,255,0.02)}
+.mockup img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* SERVICE CARDS as shards */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:12px}
+.svc{
+  position:relative;padding:18px;border-radius:12px;background:linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));overflow:visible;
+  box-shadow:0 18px 70px rgba(0,0,0,0.6);transition:transform .28s;
+  transform-origin:center;
+  clip-path: polygon(6% 0%, 100% 6%, 92% 56%, 60% 100%, 0% 86%);
+}
+.svc:hover{transform:translateY(-10px) rotate(-1deg);box-shadow:0 40px 130px rgba(0,140,255,0.08)}
+.ribbon{position:absolute;left:-40px;top:18px;padding:10px 46px;background:var(--accent);color:#021226;font-weight:900;border-radius:10px;transform:rotate(-18deg);box-shadow:0 18px 60px rgba(0,170,255,0.12)}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 360px;gap:22px}
+.section-card{
+  padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);box-shadow:var(--ui-shadow);clip-path: polygon(0% 0%, 100% 0%, 100% 84%, 82% 100%, 14% 92%, 0% 60%);
+}
+
+/* FOOTER */
+footer{padding:30px 0;color:var(--muted);text-align:center}
+
 /* responsive */
-@media (max-width:1100px){.hero{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}.hero-orb{padding:18px}}
+@media (max-width:1100px){.hero{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}.hero-orb{padding:28px}}
 @media (max-width:640px){.logo{width:60px;height:60px;border-radius:12px}.wrap{padding:16px}}
 
-/* entrance */
+/* entrances */
 .fade{opacity:0;transform:translateY(14px);transition:all .7s cubic-bezier(.2,.9,.2,1)}
 .in{opacity:1;transform:none}
 </style>
 </head>
 <body>
 
-<!-- background video (layer 0) -->
+<!-- background video -->
 <video id="bg-video" autoplay muted loop playsinline>
   <source src="https://cdn.pixabay.com/vimeo/257293226/technology-14215.mp4?width=1280&hash=9ad1c891b3b48d65b5af30e4be6d9771f310fc45" type="video/mp4">
-  <!-- fallback: if video blocked browser still shows canvas particles -->
 </video>
 
-<!-- canvas for particles + circuit lines -->
+<!-- canvas for luminous particles / circuit lines -->
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
 <div class="overlay" aria-hidden="true"></div>
 
@@ -133,22 +215,20 @@ footer{padding:30px 0;color:var(--muted);text-align:center}
   <main>
     <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
+      <div class="hero-shard" aria-hidden="true"></div>
+
       <div class="hero-orb fade" id="heroOrb">
-        <div class="hero-blob" aria-hidden="true"></div>
-        <h2 class="hero-title">Designing the Web of <span style="color:transparent;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Tomorrow</span> — Fast, Elegant & Intelligent.</h2>
+        <h2 class="hero-title">Designing the Web of <span style="background:var(--accent);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Tomorrow</span> — Fast, Elegant & Intelligent.</h2>
         <p class="hero-sub">At <strong>CodeByDavid</strong>, I build professional websites for businesses that need to stand out online.
           <span class="typing" id="typing"></span>
         </p>
 
-        <div style="margin-top:18px;">
+        <div class="cta">
           <button class="btn primary" id="hireBtn">Quick Start — $12</button>
           <button class="btn ghost" id="seeBtn">Explore Projects</button>
         </div>
-
         <div style="margin-top:12px;color:var(--muted);font-size:13px">Delivery support, mobile-ready, and performance optimization included.</div>
       </div>
-
-      <!-- intentionally left NO right preview (you asked removal of the interactive demo) -->
     </section>
 
     <!-- ABOUT -->
@@ -158,8 +238,8 @@ footer{padding:30px 0;color:var(--muted);text-align:center}
           <div style="flex:1;min-width:280px">
             <h3 style="margin:0;color:var(--neon1);font-size:22px">About</h3>
             <p style="margin-top:10px;color:#dff4ff;line-height:1.6">
-              I'm David — a web creator focused on delivering professional websites that help businesses convert customers and grow.
-              I design high-impact, modern sites with performance and UX in mind. My service is simple: <strong>I build and deliver production-ready websites</strong> that look premium and work reliably.
+              I'm David — I build and deliver <strong>production-ready websites</strong> for businesses: landing pages, portfolios, e-commerce and custom sites.
+              My focus is conversion-first design, speed, and pixel-perfect interactions that communicate trust and professionalism.
             </p>
             <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
               <div style="padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(0,200,255,0.06), transparent);color:var(--neon1);font-weight:700">Design & Conversion</div>
@@ -169,9 +249,9 @@ footer{padding:30px 0;color:var(--muted);text-align:center}
           </div>
 
           <div style="width:360px;min-width:240px" aria-hidden="true">
-            <div style="padding:16px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(6px);box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+            <div style="padding:16px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(6px);box-shadow:var(--ui-shadow)">
               <div style="font-weight:800;color:var(--neon1)">Why choose a tailored website?</div>
-              <div style="color:var(--muted);margin-top:8px;font-size:13px">Custom sites increase credibility, help you rank, and convert visitors—I'll deliver a product you can use immediately.</div>
+              <div style="color:var(--muted);margin-top:8px;font-size:13px">Custom sites build credibility, help SEO, and convert users — I deliver ready-to-use websites with clear timelines.</div>
               <div style="margin-top:12px"><button class="btn primary" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See packages</button></div>
             </div>
           </div>
@@ -183,22 +263,21 @@ footer{padding:30px 0;color:var(--muted);text-align:center}
     <section id="projects" class="fade">
       <h3 style="color:var(--neon1);margin:6px 0 12px">Selected Projects</h3>
       <div class="gallery" role="list">
-        <!-- professional example tiles (generic but professional) -->
         <div class="tile" role="listitem">
-          <div class="mockup"><img src="https://picsum.photos/seed/web1/800/400" alt="Modern Business" style="width:100%;height:100%;object-fit:cover"></div>
-          <div class="meta"><div class="t">Modern Business Site</div><div class="d muted">High-conversion landing with clear CTAs and fast performance.</div></div>
+          <div class="mockup"><img src="https://picsum.photos/seed/web1/1200/600" alt="Modern Business"></div>
+          <div class="meta"><div class="t">Modern Business Site</div><div class="d muted">High-conversion landing with clear CTAs.</div></div>
           <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary demo-btn">Live preview</button><button class="btn ghost">Details</button></div>
         </div>
 
         <div class="tile" role="listitem">
-          <div class="mockup"><img src="https://picsum.photos/seed/web2/800/400" alt="Creative Portfolio" style="width:100%;height:100%;object-fit:cover"></div>
-          <div class="meta"><div class="t">Creative Portfolio</div><div class="d muted">Visual-first portfolio with smooth animations and accessibility.</div></div>
+          <div class="mockup"><img src="https://picsum.photos/seed/web2/1200/600" alt="Creative Portfolio"></div>
+          <div class="meta"><div class="t">Creative Portfolio</div><div class="d muted">Visual-first portfolio with animations.</div></div>
           <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary demo-btn">Live preview</button><button class="btn ghost">Details</button></div>
         </div>
 
         <div class="tile" role="listitem">
-          <div class="mockup"><img src="https://picsum.photos/seed/web3/800/400" alt="E-commerce" style="width:100%;height:100%;object-fit:cover"></div>
-          <div class="meta"><div class="t">Dynamic E-Commerce</div><div class="d muted">Fast product browsing, quick checkout and responsive UX.</div></div>
+          <div class="mockup"><img src="https://picsum.photos/seed/web3/1200/600" alt="E-commerce"></div>
+          <div class="meta"><div class="t">Dynamic E-Commerce</div><div class="d muted">Fast product browsing & checkout.</div></div>
           <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary demo-btn">Live preview</button><button class="btn ghost">Details</button></div>
         </div>
       </div>
@@ -211,21 +290,21 @@ footer{padding:30px 0;color:var(--muted);text-align:center}
         <div class="svc">
           <div class="ribbon">$12</div>
           <div class="svc-title">Landing Page — Quick Start</div>
-          <div class="svc-desc">One-page responsive landing with deployed link and 24–48h turnaround.</div>
+          <div class="svc-desc">One-page responsive landing delivered fast.</div>
           <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Landing Page — Quick Start','$12')">Get it</button></div>
         </div>
 
         <div class="svc">
           <div class="ribbon">$30</div>
           <div class="svc-title">Portfolio — Professional</div>
-          <div class="svc-desc">Multi-section portfolio with animations, mobile support and deployment guidance.</div>
+          <div class="svc-desc">Multi-section portfolio with animations and deployment guidance.</div>
           <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Portfolio — Professional','$30')">Get it</button></div>
         </div>
 
         <div class="svc">
           <div class="ribbon">$60</div>
           <div class="svc-title">Custom Site — Starter</div>
-          <div class="svc-desc">Custom small-business website — responsive, accessible and production-ready.</div>
+          <div class="svc-desc">Custom business site with CMS or static export.</div>
           <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Custom Site — Starter','$60')">Request quote</button></div>
         </div>
       </div>
@@ -235,13 +314,13 @@ footer{padding:30px 0;color:var(--muted);text-align:center}
     <section id="contact" class="fade">
       <h3 style="color:var(--neon1);margin-bottom:8px">Contact</h3>
       <div class="contact-grid" style="margin-top:12px">
-        <div class="section-shell">
+        <div class="section-card">
           <div style="font-weight:800;color:var(--neon1);font-size:18px">Ready to start your website?</div>
-          <div style="color:var(--muted);margin-top:8px">Fast replies and clear delivery timelines. Send a short brief and your deadline for fastest response.</div>
+          <div style="color:var(--muted);margin-top:8px">Describe your project and your deadline for a faster reply.</div>
           <div style="margin-top:12px"><span class="mail">✉️ <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></span></div>
         </div>
 
-        <div class="section-shell" aria-hidden="true">
+        <div class="section-card" aria-hidden="true">
           <div style="color:var(--muted)">Need help choosing a package?</div>
           <div style="margin-top:12px"><button class="btn primary" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See packages</button></div>
         </div>
@@ -253,7 +332,7 @@ footer{padding:30px 0;color:var(--muted);text-align:center}
 </div>
 
 <script>
-/* ---------- Canvas: Particles + circuit connections (luminous energy) ---------- */
+/* ---------------- PARTICLES + CIRCUIT LINES (luminous energy) ---------------- */
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let W = canvas.width = innerWidth;
@@ -263,43 +342,45 @@ window.addEventListener('resize', ()=>{ W = canvas.width = innerWidth; H = canva
 function rand(min,max){ return Math.random()*(max-min)+min; }
 
 let nodes = [];
-function Node(){ this.x = rand(0,W); this.y = rand(0,H); this.vx = rand(-0.3,0.3); this.vy = rand(-0.18,0.18); this.r = rand(0.6,2.6); this.a = rand(0.15,0.95); }
-function init(){ nodes=[]; const density = Math.max(70, Math.floor((W*H)/90000)); for(let i=0;i<density;i++) nodes.push(new Node()); }
+function Node(){ this.x = rand(0,W); this.y = rand(0,H); this.vx = rand(-0.45,0.45); this.vy = rand(-0.2,0.2); this.r = rand(0.6,2.8); this.a = rand(0.12,0.9); }
+function init(){ nodes=[]; const density = Math.max(90, Math.floor((W*H)/85000)); for(let i=0;i<density;i++) nodes.push(new Node()); }
 function draw(){
   ctx.clearRect(0,0,W,H);
-  // faint radial glow
-  const g = ctx.createRadialGradient(W*0.12,H*0.06,0,W*0.8,H*0.8,Math.max(W,H));
+  // subtle radial glow
+  const g = ctx.createRadialGradient(W*0.1,H*0.04,0,W*0.8,H*0.8,Math.max(W,H));
   g.addColorStop(0,'rgba(0,40,60,0.08)');
   g.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
 
-  // draw nodes and connect with lines like circuits
+  // nodes
   for(let i=0;i<nodes.length;i++){
     const p = nodes[i];
     p.x += p.vx; p.y += p.vy;
-    if(p.x<0) p.x = W; if(p.x>W) p.x = 0; if(p.y<0) p.y = H; if(p.y>H) p.y = 0;
-    // glow
+    if(p.x<0) p.x = W; if(p.x>W) p.x=0;
+    if(p.y<0) p.y = H; if(p.y>H) p.y=0;
     ctx.beginPath();
-    ctx.fillStyle = `rgba(0,200,255,${p.a})`;
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(0,220,255,${p.a})`;
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
     ctx.fill();
   }
 
-  // draw circuit-like lines between nearby nodes (neon)
+  // circuit lines
   for(let i=0;i<nodes.length;i++){
     for(let j=i+1;j<nodes.length;j++){
       const a = nodes[i], b = nodes[j];
-      const dx = a.x - b.x, dy = a.y - b.y;
+      const dx = a.x-b.x, dy = a.y-b.y;
       const d = Math.sqrt(dx*dx+dy*dy);
-      if(d < 140){
-        const alpha = 0.16 * (1 - d/140);
-        ctx.strokeStyle = `rgba(0,220,255,${alpha})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-        // small blinking segments
-        if(Math.random() < 0.002){
+      if(d < 130){
+        const alpha = 0.14*(1 - d/130);
+        // double-line effect: faint + core
+        ctx.strokeStyle = `rgba(0,200,255,${alpha*0.7})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+
+        // tiny pulsing dot on lines occasionally -> circuit blink
+        if(Math.random() < 0.0014){
           ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-          ctx.fillRect((a.x+b.x)/2-1,(a.y+b.y)/2-1,2,2);
+          ctx.fillRect((a.x+b.x)/2-1.5,(a.y+b.y)/2-1.5,3,3);
         }
       }
     }
@@ -308,12 +389,12 @@ function draw(){
 }
 init(); draw();
 
-/* ---------- Reveal animations ---------- */
+/* ---------- reveal animations ---------- */
 const fades = document.querySelectorAll('.fade');
 const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:0.12});
 fades.forEach(f=>io.observe(f));
 
-/* ---------- Typing / rotating words effect ---------- */
+/* ---------- typing rotating words ---------- */
 const typingEl = document.getElementById('typing');
 const words = ['websites that convert.', 'immersive web experiences.', 'pixel-perfect interfaces.', 'fast delivery & support.'];
 let wi=0, ci=0, forward=true;
@@ -326,14 +407,14 @@ function loopTxt(){
 }
 setTimeout(loopTxt,900);
 
-/* ---------- Micro sounds for hover/click (optional small UX) ---------- */
+/* ----- micro audio ----- */
 let audioCtx;
 function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
-function playHover(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sine'; o.frequency.setValueAtTime(720,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(980,audioCtx.currentTime+0.06); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.02,audioCtx.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),140);}catch(e){} }
+function playHover(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sine'; o.frequency.setValueAtTime(760,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(980,audioCtx.currentTime+0.06); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.02,audioCtx.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),140);}catch(e){} }
 function playClick(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='triangle'; o.frequency.setValueAtTime(320,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(140,audioCtx.currentTime+0.12); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.05,audioCtx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.25); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),260);}catch(e){} }
 document.querySelectorAll('.btn, .demo-btn').forEach(el=>{ el.addEventListener('mouseenter', ()=>playHover()); el.addEventListener('click', ()=>playClick()); });
 
-/* ---------- helpers ---------- */
+/* helpers */
 document.getElementById('year').innerText = new Date().getFullYear();
 document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Quick%20Start%20-%20Landing%20Page');
 document.getElementById('seeBtn').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
@@ -344,10 +425,9 @@ function contactWithProduct(product,price){
   location.href = `mailto:santamariadavid0724@gmail.com?subject=${subject}&body=${body}`;
 }
 
-/* hide video on error (keeps canvas visible) */
+/* hide video if blocked (canvas remains) */
 const bgVideo = document.getElementById('bg-video');
 bgVideo.addEventListener('error', ()=>{ bgVideo.style.display='none'; });
-bgVideo.addEventListener('play', ()=>{ /* keep canvas for layered depth */ });
 
 </script>
 </body>
