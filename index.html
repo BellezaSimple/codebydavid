@@ -1,140 +1,345 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodeByDavid — Modern Web Experiences</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at top, #0a0a0a, #010409);
-      color: white;
-      overflow-x: hidden;
-    }
-
-    /* Background particles */
-    #particles {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: radial-gradient(circle at center, rgba(0, 40, 80, 0.3), rgba(0, 0, 0, 0.8));
-      animation: pulse 8s infinite alternate;
-    }
-
-    @keyframes pulse {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 60px;
-      background: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
-      z-index: 10;
-    }
-
-    /* Logo */
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      animation: fadeIn 2s ease, float 3s ease-in-out infinite alternate;
-    }
-
-    .logo img {
-      width: 60px;
-      height: 60px;
-      filter: drop-shadow(0 0 8px #00aaff);
-    }
-
-    .logo h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #00b7ff;
-      letter-spacing: 1px;
-      text-shadow: 0 0 8px #00aaff;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(5px); }
-    }
-
-    .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100vh;
-      padding: 100px 20px;
-    }
-
-    .hero h2 {
-      font-size: 3rem;
-      color: #00bfff;
-      text-shadow: 0 0 20px #00aaff;
-      margin-bottom: 20px;
-      animation: fadeIn 2s ease;
-    }
-
-    .hero p {
-      max-width: 600px;
-      color: #ddd;
-      font-size: 1.2rem;
-      line-height: 1.8;
-      animation: fadeIn 2.5s ease;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(6px);
-      font-size: 0.9rem;
-      color: #aaa;
-    }
-
-    footer a {
-      color: #00bfff;
-      text-decoration: none;
-    }
-
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CodeByDavid — Futuristic Web Developer</title>
+<meta name="description" content="CodeByDavid — futuristic, interactive web developer portfolio."/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#020412;
+    --glass: rgba(255,255,255,0.04);
+    --neon-1: #00e7ff;
+    --neon-2: #0088ff;
+    --muted: #9fb7d7;
+    --card: rgba(6,12,20,0.6);
+    --radius:18px;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--bg);color:#e6f7ff;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;-webkit-font-smoothing:antialiased}
+  a{color:var(--neon-1);text-decoration:none}
+  /* Background video + canvas */
+  #bg-video{position:fixed;inset:0;width:auto;height:auto;min-width:100%;min-height:100%;object-fit:cover;z-index:0;filter:contrast(1.03) saturate(1.05) brightness(0.75)}
+  #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,6,12,0.15), rgba(0,2,6,0.55));z-index:1;pointer-events:none}
+  /* wrap */
+  .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:32px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:8px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:86px;height:86px;border-radius:18px;background:linear-gradient(135deg,#001a2a,var(--neon-2));display:flex;align-items:center;justify-content:center;box-shadow:0 18px 60px rgba(0,140,255,0.08), inset 0 -12px 30px rgba(255,255,255,0.02);animation:logoIn .9s ease}
+  .logo img{width:70px;height:70px;object-fit:contain;border-radius:12px}
+  @keyframes logoIn{from{opacity:0;transform:translateY(-12px) scale(0.9)}to{opacity:1;transform:none}}
+  h1{font-size:18px;margin:0;font-weight:700}
+  .tag{color:var(--muted);font-size:13px}
+  nav{display:flex;gap:12px;align-items:center}
+  nav a{padding:8px 12px;border-radius:10px;font-weight:600;color:rgba(230,247,255,0.95)}
+  nav a:hover{background:linear-gradient(90deg, rgba(0,230,255,0.06), rgba(0,110,200,0.02)); color:var(--neon-1)}
+  /* hero layout with bold organic shapes */
+  .hero{position:relative;display:grid;grid-template-columns:1fr 520px;gap:28px;align-items:center;padding:56px 0 36px}
+  .hero-card{position:relative;padding:44px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(8px);box-shadow:0 30px 80px rgba(0,0,0,0.6);overflow:visible}
+  .hero-shape{
+    position:absolute;right:-120px;top:-48px;width:640px;height:640px;filter:blur(28px);opacity:0.95;transform:rotate(-8deg);z-index:0;
+    background: radial-gradient(circle at 30% 30%, rgba(0,200,255,0.12), transparent 20%), linear-gradient(135deg, rgba(0,130,255,0.06), rgba(0,200,255,0.03));
+    border-radius:48% 52% 43% 57% / 52% 38% 62% 48%;
+  }
+  .hero-title{position:relative;font-size:36px;line-height:1.02;margin:0 0 12px;color:transparent;background:linear-gradient(90deg,var(--neon-1),var(--neon-2));-webkit-background-clip:text;font-weight:800;z-index:2}
+  .hero-sub{color:#cfefff;margin-bottom:18px;font-size:16px;z-index:2;position:relative}
+  .typing{color:#dff9ff;font-weight:700;border-right:2px solid rgba(255,255,255,0.06);display:inline-block;padding-right:6px;margin-left:8px}
+  .cta{display:flex;gap:12px;margin-top:20px;z-index:2;position:relative}
+  .btn{padding:14px 22px;border-radius:999px;font-weight:800;border:none;cursor:pointer;transition:transform .18s ease,box-shadow .18s}
+  .btn.primary{background:linear-gradient(90deg,var(--neon-1),var(--neon-2));color:#061223;box-shadow:0 20px 60px rgba(0,170,255,0.12)}
+  .btn.primary:hover{transform:translateY(-6px);box-shadow:0 30px 90px rgba(0,200,255,0.18)}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+  .hero-note{margin-top:14px;color:var(--muted);font-size:13px;z-index:2}
+  /* preview panel removed as requested (no interactive demo) */
+  /* sections redesigned with curved containers and cutouts */
+  section{padding:44px 0;border-top:1px solid rgba(255,255,255,0.02)}
+  .about-wrap{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:start}
+  .card-fluid{position:relative;padding:28px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter: blur(6px);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+  .about-text{font-size:15px;color:#dbeffb;line-height:1.6}
+  .chips{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+  .chip{padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(0,200,255,0.06), transparent);color:var(--neon-1);font-weight:700}
+  /* projects — soft curved gallery tiles and layered shapes */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .tile{position:relative;border-radius:18px;padding:14px;background:linear-gradient(180deg, rgba(10,16,24,0.6), rgba(4,8,12,0.6));overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,0.65);transition:transform .28s ease}
+  .tile:before{content:'';position:absolute;right:-40px;top:-60px;width:220px;height:220px;border-radius:40% 60% 50% 50%/60% 40% 60% 40%;background:linear-gradient(90deg, rgba(0,180,255,0.06), rgba(0,120,220,0.02));transform:rotate(15deg);filter:blur(20px)}
+  .tile:hover{transform:translateY(-12px);box-shadow:0 40px 120px rgba(0,140,255,0.08)}
+  .mockup{height:180px;border-radius:12px;background:linear-gradient(135deg,#00121a,#061726);display:flex;align-items:center;justify-content:center;color:rgba(220,240,255,0.06);font-weight:900;font-size:20px;position:relative;overflow:hidden;box-shadow:inset 0 -12px 40px rgba(255,255,255,0.02)}
+  .meta{margin-top:12px}
+  .meta .t{font-weight:800;color:var(--neon-1)}
+  .meta .d{color:var(--muted);font-size:13px}
+  /* services — asymmetrical cards with floating ribbon price */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .svc{position:relative;padding:20px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:visible}
+  .ribbon{position:absolute;left:-36px;top:18px;padding:10px 46px;background:linear-gradient(90deg,var(--neon-1),var(--neon-2));color:#021226;font-weight:900;border-radius:8px;transform:rotate(-18deg);box-shadow:0 18px 60px rgba(0,170,255,0.12)}
+  .svc .svc-title{font-weight:800;margin-bottom:8px}
+  .svc .svc-desc{color:var(--muted);font-size:13px}
+  /* contact */
+  .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:22px}
+  .contact-cta{font-weight:800;color:var(--neon-1);font-size:18px}
+  .mail{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,194,255,0.06), transparent);color:var(--neon-1)}
+  /* footer */
+  footer{padding:30px 0;color:var(--muted);text-align:center}
+  /* responsive */
+  @media (max-width:1100px){.hero{grid-template-columns:1fr}.about-wrap{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}}
+  @media (max-width:640px){.logo{width:60px;height:60px;border-radius:12px}.hero{padding-top:36px}}
+  /* animations */
+  .fade{opacity:0;transform:translateY(14px);transition:all .8s cubic-bezier(.2,.9,.2,1)}
+  .in{opacity:1;transform:none}
+</style>
 </head>
 <body>
-  <div id="particles"></div>
 
+<!-- video background (remote) - if blocked, canvas still runs -->
+<video id="bg-video" autoplay muted loop playsinline>
+  <source src="https://cdn.pixabay.com/vimeo/257293226/technology-14215.mp4?width=1280&hash=9ad1c891b3b48d65b5af30e4be6d9771f310fc45" type="video/mp4">
+</video>
+
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div class="overlay" aria-hidden="true"></div>
+
+<div class="wrap">
   <header>
-    <div class="logo">
-      <img src="https://i.ibb.co/fYB6GXw2/logo.png" alt="CodeByDavid Logo">
-      <h1>CodeByDavid</h1>
+    <div class="brand">
+      <div class="logo" id="logo"><img src="https://i.ibb.co/fYB6GXw2/logo.png" alt="CodeByDavid logo"></div>
+      <div>
+        <h1>CodeByDavid</h1>
+        <div class="tag">Futuristic web experiences • Websites for businesses</div>
+      </div>
     </div>
+
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
 
-  <section class="hero">
-    <h2>Building the Future of the Web</h2>
-    <p>At CodeByDavid, we create modern, intelligent, and elegant websites that empower your business. 
-      Our designs combine speed, innovation, and technology to turn your vision into a professional digital experience.</p>
-  </section>
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home" aria-label="Hero">
+      <div class="hero-card fade" id="heroCard">
+        <div class="hero-shape" aria-hidden="true"></div>
+        <h2 class="hero-title">Designing the Web of <span style="background:linear-gradient(90deg,var(--neon-1),var(--neon-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Tomorrow</span> — Fast, Elegant & Intelligent.</h2>
+        <p class="hero-sub">At <strong>CodeByDavid</strong>, I build professional websites for businesses that need to stand out online.
+          <span class="typing" id="typing"></span>
+        </p>
 
-  <footer>
-    <p>© 2025 CodeByDavid — Crafted with passion and technology.</p>
-    <p>Contact: <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></p>
-  </footer>
+        <div class="cta">
+          <button class="btn primary" id="hireBtn">Quick Start — $12</button>
+          <button class="btn ghost" id="seeBtn">Explore Projects</button>
+        </div>
+
+        <div class="hero-note">Delivery support, mobile-ready, and performance optimization included.</div>
+      </div>
+
+      <!-- (Interactive demo removed as you requested) -->
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="fade" aria-label="About">
+      <div class="about-wrap">
+        <div class="card-fluid">
+          <h3 style="margin-top:0">About Me</h3>
+          <p class="about-text">I'm David — a specialist in creating custom websites for businesses. I focus on polished design, fast performance, and layouts that convert visitors into customers. From landing pages to e-commerce and portfolios, I deliver ready-to-use websites that help brands grow online.</p>
+          <div class="chips">
+            <div class="chip">Design & Conversion</div>
+            <div class="chip">Mobile-first & Fast</div>
+            <div class="chip">Deployment & Support</div>
+          </div>
+        </div>
+
+        <div class="card-fluid" aria-hidden="true">
+          <h4 style="margin-top:0">Why choose a tailored website?</h4>
+          <p class="muted">A custom website positions your brand professionally, improves trust, and converts visitors into clients. I deliver clean, maintainable sites with clear timelines and friendly support.</p>
+          <div style="margin-top:18px"><button class="btn primary" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See packages</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="fade" aria-label="Projects">
+      <h3 class="title">Selected Projects</h3>
+      <div class="gallery" style="margin-top:14px">
+        <div class="tile">
+          <div class="mockup"><div class="screen">MODERN CO.</div></div>
+          <div class="meta"><div class="t">Modern Co. — Corporate</div><div class="d muted">Clean corporate presence with lead capture and clear CTAs.</div></div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn primary demo-btn">Live preview</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+
+        <div class="tile">
+          <div class="mockup"><div class="screen">CREATIVE</div></div>
+          <div class="meta"><div class="t">Creative Portfolio</div><div class="d muted">Visual-first portfolio with smooth transitions and accessibility.</div></div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn primary demo-btn">Live preview</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+
+        <div class="tile">
+          <div class="mockup"><div class="screen">ATLAS SHOP</div></div>
+          <div class="meta"><div class="t">Atlas — E-commerce</div><div class="d muted">Fast product grid, quick checkout flow and responsive design.</div></div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn primary demo-btn">Live preview</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="fade" aria-label="Services">
+      <h3 class="title">Services & Packages</h3>
+      <div class="services" style="margin-top:12px">
+        <div class="svc">
+          <div class="ribbon">$12</div>
+          <div class="svc-title">Landing Page — Quick Start</div>
+          <div class="svc-desc">One-page responsive landing with deployed link and 24–48h turnaround.</div>
+          <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Landing Page — Quick Start','$12')">Get it</button></div>
+        </div>
+
+        <div class="svc">
+          <div class="ribbon">$30</div>
+          <div class="svc-title">Portfolio — Professional</div>
+          <div class="svc-desc">Multi-section portfolio with animations, mobile support and deployment guidance.</div>
+          <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Portfolio — Professional','$30')">Get it</button></div>
+        </div>
+
+        <div class="svc">
+          <div class="ribbon">$60</div>
+          <div class="svc-title">Custom Site — Starter</div>
+          <div class="svc-desc">Custom small-business website — responsive, accessible and production-ready. Contact for scope.</div>
+          <div style="margin-top:12px"><button class="btn primary" onclick="contactWithProduct('Custom Site — Starter','$60')">Request quote</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="fade" aria-label="Contact">
+      <h3 class="title">Contact</h3>
+      <div class="contact-grid" style="margin-top:12px">
+        <div class="contact-cta card-fluid">
+          <div class="contact-cta">Ready to start your website?</div>
+          <p class="muted" style="margin-top:8px">Fast replies and clear delivery timelines. Include a short description and your deadline for fastest response.</p>
+          <div style="margin-top:12px"><span class="mail">✉️ <a href="mailto:santamariadavid0724@gmail.com">santamariadavid0724@gmail.com</a></span></div>
+        </div>
+
+        <div class="card-fluid" aria-hidden="true">
+          <div class="muted">Want to see packages again?</div>
+          <div style="margin-top:10px"><button class="btn primary" onclick="document.querySelector('#services').scrollIntoView({behavior:'smooth'})">See packages</button></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>© <span id="year"></span> CodeByDavid — Futuristic web experiences</footer>
+</div>
+
+<script>
+/* ---------- Canvas background: adaptive particle field ---------- */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W = canvas.width = innerWidth;
+let H = canvas.height = innerHeight;
+let particles = [];
+const DENSITY = Math.max(40, Math.floor((W*H)/90000));
+function rand(min,max){return Math.random()*(max-min)+min;}
+function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; init(); }
+addEventListener('resize', ()=>{ resize(); });
+
+function Particle(){
+  this.x = rand(0,W);
+  this.y = rand(0,H);
+  this.vx = rand(-0.35,0.35);
+  this.vy = rand(-0.12,0.12);
+  this.r = rand(0.7,2.6);
+  this.a = rand(0.12,0.9);
+}
+function init(){ particles = []; for(let i=0;i<DENSITY;i++) particles.push(new Particle()); }
+function connect(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const p = particles[i], q = particles[j];
+      const dx = p.x-q.x, dy = p.y-q.y;
+      const d = Math.sqrt(dx*dx+dy*dy);
+      if(d<140){
+        const alpha = 0.18*(1 - d/140);
+        ctx.strokeStyle = `rgba(0,200,255,${alpha})`;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+      }
+    }
+  }
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const g = ctx.createRadialGradient(W*0.12,H*0.06,0,W*0.8,H*0.8,Math.max(W,H));
+  g.addColorStop(0,'rgba(0,60,90,0.12)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0) p.x = W; if(p.x>W) p.x=0;
+    if(p.y<0) p.y = H; if(p.y>H) p.y=0;
+    ctx.fillStyle = `rgba(0,200,255,${p.a})`;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+  });
+  connect();
+  ctx.strokeStyle = 'rgba(0,120,180,0.02)'; ctx.lineWidth = 1;
+  for(let x=0;x<W;x+=160){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  requestAnimationFrame(draw);
+}
+init(); draw();
+
+/* ---------- Entry animations ---------- */
+const fadeEls = document.querySelectorAll('.fade');
+const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:0.12});
+fadeEls.forEach(el=>io.observe(el));
+
+/* ---------- Typing effect ---------- */
+const typingEl = document.getElementById('typing');
+const phrases = ['websites that convert.', 'pixel-perfect interfaces.', 'fast delivery & support.', 'scalable, maintainable sites.'];
+let tIndex = 0, charIndex = 0, forward = true;
+function typeLoop(){
+  const phrase = phrases[tIndex];
+  if(forward){ charIndex++; if(charIndex>phrase.length){ forward=false; setTimeout(typeLoop,1200); return; } }
+  else { charIndex--; if(charIndex<0){ forward=true; tIndex=(tIndex+1)%phrases.length; setTimeout(typeLoop,600); return; } }
+  typingEl.textContent = phrase.slice(0,charIndex);
+  setTimeout(typeLoop, forward ? 50 : 30);
+}
+setTimeout(typeLoop,900);
+
+/* ---------- small interactive sounds ---------- */
+let audioCtx;
+function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+function playHover(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='sine'; o.frequency.setValueAtTime(720,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(980,audioCtx.currentTime+0.06); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.02,audioCtx.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.12); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),140);}catch(e){} }
+function playClick(){ try{ ensureAudio(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='triangle'; o.frequency.setValueAtTime(320,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(140,audioCtx.currentTime+0.12); g.gain.setValueAtTime(0.0001,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.05,audioCtx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.25); o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(),260);}catch(e){} }
+document.querySelectorAll('.btn, .demo-btn').forEach(el=>{ el.addEventListener('mouseenter', ()=>playHover()); el.addEventListener('click', ()=>playClick()); });
+
+/* ---------- helpers ---------- */
+document.getElementById('year').innerText = new Date().getFullYear();
+document.getElementById('hireBtn').addEventListener('click', ()=> location.href = 'mailto:santamariadavid0724@gmail.com?subject=Quick%20Start%20-%20Landing%20Page');
+document.getElementById('seeBtn').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
+
+function openDemo(){ alert('Preview mode — real demos will be linked here.'); }
+function contactWithProduct(product,price){
+  const subject = encodeURIComponent('Order: '+product+' — '+price);
+  const body = encodeURIComponent('Hi, I would like to order '+product+". Please share next steps and delivery time.\n\nThanks.");
+  location.href = `mailto:santamariadavid0724@gmail.com?subject=${subject}&body=${body}`;
+}
+
+/* hide video if errors (keeps canvas visible) */
+const bgVideo = document.getElementById('bg-video');
+bgVideo.addEventListener('error', ()=>{ bgVideo.style.display='none'; });
+bgVideo.addEventListener('play', ()=>{ /* keep canvas for layered depth */ });
+
+</script>
 </body>
 </html>
